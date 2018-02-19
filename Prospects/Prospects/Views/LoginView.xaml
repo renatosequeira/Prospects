@@ -1,0 +1,122 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage 
+    xmlns="http://xamarin.com/schemas/2014/forms"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    x:Class="Prospects.Views.LoginView"
+    BindingContext="{Binding Main, Source={StaticResource Locator}}"
+    Title="LOGIN">
+
+    <ContentPage.Content>
+        <StackLayout
+            BindingContext="{Binding Login}"
+            Padding="8"
+            Spacing="10">
+
+            <Image
+                Source="Logo"
+                WidthRequest="150"
+                HeightRequest="150"/>
+
+            <Grid
+                Margin="50,0,50,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="2*"/>
+                </Grid.ColumnDefinitions>
+
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="AUTO"/>
+                    <RowDefinition Height="AUTO"/>
+                </Grid.RowDefinitions>
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="0"
+                    Text="Email:"
+                    VerticalOptions="Center"/>
+
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="0"
+                    Text="{Binding Email,Mode=TwoWay}"
+                    Placeholder="Insira email"
+                    Keyboard="Email"/>
+
+                <Label
+                    Grid.Column="0"
+                    Grid.Row="1"
+                    Text="Password:"
+                    VerticalOptions="Center"/>
+
+                <Entry
+                    Grid.Column="1"
+                    Grid.Row="1"
+                    Text="{Binding Password,Mode=TwoWay}"
+                    Placeholder="Insira password"
+                    IsPassword="True"/>
+            </Grid>
+
+            <StackLayout
+                Orientation="Horizontal"
+                HorizontalOptions="Center"
+                Spacing="10">
+                <Label
+                    Text="Recordar-me"
+                    VerticalOptions="Center"/>
+                <Switch
+                    IsToggled="{Binding IsToggled, Mode=TwoWay}"/>
+            </StackLayout>
+
+            <Label
+                Text="Recuperar palavra passe"
+                HorizontalOptions="Center"
+                TextColor="#5489B2">
+                <Label.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding RecoverPasswordCommand}"/>
+                </Label.GestureRecognizers>
+            </Label>
+
+            <ActivityIndicator
+                IsRunning="{Binding IsRunning, Mode=TwoWay}"/>
+
+            <StackLayout
+                Margin="50,0,50,0">
+                <Button
+                    Text="LOGIN"
+                    BorderColor="#5489B2"
+                    TextColor="#5489B2"
+                    BorderWidth="1"
+                    BackgroundColor="Transparent"
+                    Command="{Binding LoginCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"/>
+
+                <Button
+                    Text="REGISTAR"
+                    BorderColor="#FF5349"
+                    TextColor="#6299BD"
+                    BorderWidth="1"
+                    BackgroundColor="Transparent"
+                    Command="{Binding RegisterCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"/>
+            </StackLayout>
+
+            <StackLayout
+                VerticalOptions="End"
+                HorizontalOptions="Center"
+                Orientation="Horizontal">
+                <Label
+                    Text="PoweredBy"
+                    VerticalOptions="Center"/>
+                <Image
+                    Source="LogoOutstand"
+                    WidthRequest="100"
+                    VerticalOptions="Center"/>
+            </StackLayout>
+            
+        </StackLayout>
+
+
+
+        
+    </ContentPage.Content>
+    
+</ContentPage>

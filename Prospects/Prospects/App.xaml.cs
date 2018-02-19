@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
-using Xamarin.Forms;
-
-namespace Prospects
+﻿namespace Prospects
 {
-	public partial class App : Application
+    using Views;
+    using Xamarin.Forms;
+
+    public partial class App : Application
 	{
 		public App ()
 		{
 			InitializeComponent();
 
-			MainPage = new Prospects.MainPage();
+            MainPage = new NavigationPage(new LoginView());
 		}
 
 		protected override void OnStart ()

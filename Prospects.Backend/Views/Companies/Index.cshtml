@@ -7,15 +7,15 @@
 <h2>Empresas</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create")
+    @Html.ActionLink("Create New", "Create", new { }, new { @class= "btn btn-primary"})
 </p>
 <table class="table">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyName)
+            @Html.DisplayNameFor(model => model.Image)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyAddress)
+            @Html.DisplayNameFor(model => model.CompanyName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CompanyPhone)
@@ -25,15 +25,6 @@
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CompanyWebsite)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanySector)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyNIF)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.CompanyLegalForm)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Capital)
@@ -50,10 +41,13 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
+            @if (!string.IsNullOrEmpty(item.Image))
+                {
+                   <img src="@Url.Content(item.Image)" alt="Company Logo" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                }
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyAddress)
+            @Html.DisplayFor(modelItem => item.CompanyName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CompanyPhone)
@@ -68,24 +62,15 @@
             @Html.DisplayFor(modelItem => item.CompanySector)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.CompanyNIF)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyLegalForm)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Capital)
-        </td>
-        <td>
             @Html.DisplayFor(modelItem => item.Status)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CompanyProspectlStatus)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CompanyId }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CompanyId }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CompanyId })
+            @Html.ActionLink("Edit", "Edit", new { id = item.CompanyId }, new { @class = "btn btn-warning" }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CompanyId }, new { @class = "btn btn-info" }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId }, new { @class = "btn btn-danger" })
         </td>
     </tr>
 }

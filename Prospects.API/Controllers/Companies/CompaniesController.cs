@@ -1,5 +1,6 @@
 ﻿namespace Prospects.API.Controllers.Companies
 {
+    using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
     using System.Linq;
@@ -7,8 +8,10 @@
     using System.Threading.Tasks;
     using System.Web.Http;
     using System.Web.Http.Description;
-    using Prospects.Domain;
-    using Prospects.Domain.Companies;
+    using API.Models.Companies;
+    using Domain;
+    using Domain.Companies;
+    using Prospects.API.Models.Contacts;
 
     [Authorize]
     public class CompaniesController : ApiController
@@ -16,9 +19,56 @@
         private DataContext db = new DataContext();
 
         // GET: api/Companies
-        public IQueryable<Company> GetCompanies()
+        public async Task<IHttpActionResult> GetCompanies()
         {
-            return db.Companies;
+            var companies = await db.Companies.ToListAsync();
+
+            var companiesResponse = new List<CompanyResponse>();
+
+            foreach (var company in companies)
+            {
+                var contactsResponse = new List<ContactResponse>();
+
+                foreach (var contact in company.Contacts)
+                {
+                    contactsResponse.Add(new ContactResponse
+                    {
+                        AddedDate = contact.AddedDate,
+                        ContactAddedBy = contact.ContactAddedBy,
+                        ContactCompany = contact.ContactCompany,
+                        Contacted = contact.Contacted,
+                        ContactEmail = contact.ContactEmail,
+                        ContactId = contact.ContactId,
+                        ContactMobile = contact.ContactMobile,
+                        ContactName = contact.ContactName,
+                        ContactPositionInCompany = contact.ContactPositionInCompany,
+                        ContactWebsite = contact.ContactWebsite
+                    });
+                }
+
+                companiesResponse.Add(new CompanyResponse
+                {
+                    AddedDate = company.AddedDate,
+                    Capital = company.Capital,
+                    CompanyAddedBy = company.CompanyAddedBy,
+                    CompanyAddress = company.CompanyAddress,
+                    CompanyEmail = company.CompanyEmail,
+                    CompanyId = company.CompanyId,
+                    CompanyLegalForm = company.CompanyLegalForm,
+                    CompanyName = company.CompanyName,
+                    CompanyNIF = company.CompanyNIF,
+                    CompanyNotes = company.CompanyNotes,
+                    CompanyPhone = company.CompanyPhone,
+                    CompanyProspectlStatus = company.CompanyProspectlStatus,
+                    CompanySector = company.CompanySector,
+                    CompanyWebsite = company.CompanyWebsite,
+                    Image = company.Image,
+                    Status = company.Status,
+                    Contacts = contactsResponse
+                });
+            }
+
+            return Ok(companiesResponse);
         }
 
         // GET: api/Companies/5
