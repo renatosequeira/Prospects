@@ -20,6 +20,7 @@
         public CompanyViewModel Companies { get; set; }
         public ContactsViewModel Contacts { get; set; }
         public NewCompanyViewModel NewCompany { get; set; }
+        public EditCompanyViewModel EditCompany { get; set; }
         #endregion
 
         #region Constructors

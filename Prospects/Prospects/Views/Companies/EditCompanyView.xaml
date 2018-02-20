@@ -1,0 +1,191 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prospects.Views.Companies.EditCompanyView"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="EDITAR EMPRESA">
+
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+                BindingContext="{Binding EditCompany}"
+                Padding="20"
+                Spacing="15">
+
+                <!--COMPANY NAME-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_building"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Nome da empresa..."
+                    Text="{Binding CompanyName, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY ADDRESS-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_address"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Morada da empresa..."
+                    Text="{Binding CompanyAddress, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY PHONE-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_phone"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Telefone da empresa..."
+                    Text="{Binding CompanyPhone, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Telephone"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY EMAIL-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_email"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Email da empresa..."
+                    Text="{Binding CompanyEmail, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Email"/>
+
+                    <Image
+                    Source="ic_send_email"
+                    HeightRequest="20"
+                    HorizontalOptions="End"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY WEBSITE-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_website"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Site da empresa..."
+                    Text="{Binding CompanyWebsite, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Url"/>
+
+                    <Image
+                    Source="ic_open_url"
+                    HeightRequest="20"
+                    HorizontalOptions="End"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY ACTIVITY SECTOR-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_industry"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Sector de atividade..."
+                    Text="{Binding CompanySector, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Url"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY NIF-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_contribuinte"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="NIF..."
+                    Text="{Binding CompanyNIF, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Url"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand"/>
+
+                <Button
+                    Text="GUARDAR"
+                    BorderColor="#5489B2"
+                    TextColor="#5489B2"
+                    BorderWidth="1"
+                    BackgroundColor="Transparent"
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    Margin="50,0"
+                    VerticalOptions="EndAndExpand"/>
+
+              
+            </StackLayout>
+        </ScrollView>
+
+    </ContentPage.Content>
+
+</ContentPage>

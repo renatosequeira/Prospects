@@ -18,12 +18,15 @@
         public string CompanyAddress { get; set; }
 
         [Display(Name ="Telefone")]
+        [DataType(DataType.PhoneNumber)]
         public string CompanyPhone { get; set; }
 
         [Display(Name ="Email")]
+        [DataType(DataType.EmailAddress)]
         public string CompanyEmail { get; set; }
 
         [Display(Name = "Website")]
+        [DataType(DataType.Url)]
         public string CompanyWebsite { get; set; }
 
         [Display(Name = "Setor Atividade")]
@@ -38,6 +41,7 @@
         public string CompanyLegalForm { get; set; } //LDA, UNIPESSOAL, etc
 
         [Display(Name = "Capital Social")]
+        [DataType(DataType.Currency)]
         public string Capital { get; set; } //Capital Social
 
         [Display(Name = "Estado")]

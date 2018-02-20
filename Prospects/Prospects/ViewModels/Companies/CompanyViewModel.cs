@@ -1,11 +1,15 @@
 ﻿namespace Prospects.ViewModels.Companies
 {
+    using GalaSoft.MvvmLight.Command;
     using Prospects.Models.Companies;
     using Prospects.Services;
+    using System;
     using System.Collections.Generic;
     using System.Collections.ObjectModel;
     using System.ComponentModel;
     using System.Linq;
+    using System.Threading.Tasks;
+    using System.Windows.Input;
 
     public class CompanyViewModel : INotifyPropertyChanged
     {
@@ -21,9 +25,26 @@
         #region Attributes
         List<Company> companies;
         ObservableCollection<Company> _companies;
+        bool _isRefreshing;
         #endregion
 
         #region Properties
+        public bool IsRefreshing
+        {
+            get
+            {
+                return _isRefreshing;
+            }
+            set
+            {
+                if (_isRefreshing != value)
+                {
+                    _isRefreshing = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(IsRefreshing)));
+                }
+            }
+        }
+
         public ObservableCollection<Company> CompaniesList
         {
             get
@@ -55,12 +76,63 @@
         #region Methods
         public void AddCompany(Company company)
         {
+            IsRefreshing = true;
             companies.Add(company);
             CompaniesList = new ObservableCollection<Company>(companies.OrderBy(c => c.CompanyName));
+            IsRefreshing = false;
+        }
+
+        public void UpdateCompany(Company company)
+        {
+            IsRefreshing = true;
+            var oldCompany = companies.Where(c => c.CompanyId == company.CompanyId).FirstOrDefault();
+
+            oldCompany = company;
+
+            CompaniesList = new ObservableCollection<Company>(companies.OrderBy(c => c.CompanyName));
+            IsRefreshing = false;
+        }
+
+        public async Task DeleteCompany(Company company)
+        {
+            IsRefreshing = true;
+
+            var connection = await apiService.CheckConnection();
+
+            if (!connection.IsSuccess)
+            {
+                IsRefreshing = false;
+                await dialogService.ShowMessage("Error", connection.Message);
+                return;
+            }
+
+            var mainViewModel = MainViewModel.GetInstance();
+
+            var response = await apiService.Delete(
+                "http://api.prospects.outstandservices.pt",
+                "/api",
+                "/Companies",
+                mainViewModel.Token.TokenType,
+                mainViewModel.Token.AccessToken,
+                company);
+
+            if (!response.IsSuccess)
+            {
+                IsRefreshing = false;
+                await dialogService.ShowMessage("Error", response.Message);
+                return;
+            }
+
+            companies.Remove(company);
+
+            CompaniesList = new ObservableCollection<Company>(companies.OrderBy(c => c.CompanyName));
+            IsRefreshing = false;
         }
 
         async void LoadCompanies()
         {
+            IsRefreshing = true;
+
             var connection = await apiService.CheckConnection();
 
             if (!connection.IsSuccess)
@@ -87,6 +159,8 @@
             companies = (List<Company>)response.Result;
 
             CompaniesList = new ObservableCollection<Company>(companies.OrderBy(c => c.CompanyName));
+
+            IsRefreshing = false;
         }
         #endregion
 
@@ -102,6 +176,17 @@
 
             return instance;
         }
+        #endregion
+
+        #region Commands
+        public ICommand RefreshCommand
+        {
+            get
+            {
+                return new RelayCommand(LoadCompanies);
+            }
+        }
+
         #endregion
     }
 }

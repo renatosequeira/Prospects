@@ -1,5 +1,6 @@
 ﻿namespace Prospects.API.Controllers.Companies
 {
+    using System;
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
@@ -129,7 +130,24 @@
             }
 
             db.Companies.Add(company);
-            await db.SaveChangesAsync();
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if(ex.InnerException != null && 
+                    ex.InnerException.InnerException != null && 
+                    ex.InnerException.InnerException.Message.Contains("Index"))
+                {
+                    return BadRequest("Este NIF já se existe na base de dados!");
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
+
+            }
 
             return CreatedAtRoute("DefaultApi", new { id = company.CompanyId }, company);
         }

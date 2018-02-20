@@ -7,7 +7,7 @@
 
     <ContentPage.ToolbarItems>
         <ToolbarItem 
-            Icon="ic_add_circle_outline"
+            Icon="ic_action_add_circle_outline"
             Command="{Binding NewCompanyCommand}"/>
     </ContentPage.ToolbarItems>
     
@@ -18,11 +18,26 @@
 
             <ListView
                 ItemsSource="{Binding CompaniesList}"
-                HasUnevenRows="True">
+                HasUnevenRows="True"
+                IsRefreshing="{Binding IsRefreshing, Mode=TwoWay}"
+                RefreshCommand="{Binding RefreshCommand}"
+                IsPullToRefreshEnabled="True">
 
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Command="{Binding EditCommand}"
+                                    Text="Editar"/>
+                                <MenuItem
+                                    Command="{Binding DeleteCommand}"
+                                    IsDestructive="True"
+                                    Text="Apagar"/>
+                            </ViewCell.ContextActions>
+                            
+                            <!--CAMPOS VISIVEIS NA LISTVIEW DE EMPRESAS-->
                             <Grid>
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="AUTO"/>
