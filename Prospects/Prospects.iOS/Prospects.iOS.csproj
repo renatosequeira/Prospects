@@ -131,4 +131,10 @@
       <Name>Prospects</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_chevron_right.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <BundleResource Include="Resources\ic_add_circle_outline.png" />
+  </ItemGroup>
 </Project>

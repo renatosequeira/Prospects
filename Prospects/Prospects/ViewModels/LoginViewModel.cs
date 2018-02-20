@@ -17,6 +17,7 @@
         #region Services
         ApiService apiService;
         DialogService dialogService;
+        NavigationService navigationService;
         #endregion
 
         #region Attributes
@@ -115,6 +116,10 @@
         {
             apiService = new ApiService();
             dialogService = new DialogService();
+            navigationService = new NavigationService();
+
+            Email = "rds.516@gmail.com";
+            Password = "123456";
 
             IsEnabled = true;
             IsToggled = true;
@@ -184,7 +189,7 @@
             mainViewModel.Token = response;
             mainViewModel.Companies = new CompanyViewModel();
 
-            await Application.Current.MainPage.Navigation.PushAsync(new CompanyView());
+            await navigationService.Navigate("CompanyView");
 
             Email = null;
             Password = null;

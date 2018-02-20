@@ -1,23 +1,17 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Prospects.Views.Companies.CompanyView"
+             x:Class="Prospects.Views.Contacts.ContactsView"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="EMPRESAS">
-
-    <ContentPage.ToolbarItems>
-        <ToolbarItem 
-            Icon="ic_add_circle_outline"
-            Command="{Binding NewCompanyCommand}"/>
-    </ContentPage.ToolbarItems>
+             Title="CONTACTOS">
     
     <ContentPage.Content>
         <StackLayout
-            BindingContext="{Binding Companies}"
+            BindingContext="{Binding Contacts}"
             Padding="5">
 
             <ListView
-                ItemsSource="{Binding CompaniesList}"
+                ItemsSource="{Binding ContactsList}"
                 HasUnevenRows="True">
 
                 <ListView.ItemTemplate>
@@ -25,26 +19,16 @@
                         <ViewCell>
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="AUTO"/>
                                     <ColumnDefinition Width="*"/>
                                     <ColumnDefinition Width="AUTO"/>
                                 </Grid.ColumnDefinitions>
-                                
-                                <Image
-                                    Grid.Column="0"
-                                    Source="{Binding ImageFullPath}"
-                                    WidthRequest="100"
-                                    HorizontalOptions="End">
-                                </Image>
-                                
                                 <Label
-                                    Grid.Column="1"
+                                    Grid.Column="0"
                                     HorizontalOptions="FillAndExpand"
                                     VerticalOptions="Center"
                                     TextColor="Black"
-                                    Text="{Binding CompanyName}"/>
+                                    Text="{Binding ContactName}"/>
                                 <Image
-                                    Grid.Column="2"
                                     Source="ic_chevron_right"
                                     WidthRequest="25"
                                     HeightRequest="25"
@@ -58,9 +42,9 @@
                         </ViewCell>
                     </DataTemplate>
                 </ListView.ItemTemplate>
-                
+
             </ListView>
-            
+
         </StackLayout>
     </ContentPage.Content>
     
