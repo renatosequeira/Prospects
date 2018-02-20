@@ -1,0 +1,141 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prospects.Views.Contacts.NewContactView"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="NOVO CONTACTO">
+    
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout
+            BindingContext="{Binding NewCompany}"
+            Padding="20"
+            Spacing="15">
+
+                <!--CONTACT NAME-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_user"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Nome..."
+                    Text="{Binding ContactName, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--CONTACT MOBILE-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_mobile"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Contacto..."
+                    Text="{Binding ContactMobile, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY PHONE-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_email_blue"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Email..."
+                    Text="{Binding ContactEmail, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Telephone"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--PERSONAL WEBSITE-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_website"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Website pessoal..."
+                    Text="{Binding ContactWebsite, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Url"/>
+
+                    <Image
+                    Source="ic_open_url"
+                    HeightRequest="20"
+                    HorizontalOptions="End"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <!--COMPANY ACTIVITY SECTOR-->
+                <StackLayout
+                Orientation="Horizontal"
+                Spacing="10">
+                    <Image
+                    Source="ic_company"
+                    HeightRequest="30"
+                    HorizontalOptions="Start"/>
+
+                    <Entry
+                    Placeholder="Sector de atividade..."
+                    Text="{Binding Contacts.CompanyName, Mode=TwoWay}"
+                    HorizontalOptions="FillAndExpand"
+                    Keyboard="Url"
+                        IsEnabled="False"/>
+
+                    <Image
+                    Source="ic_delete"
+                    HeightRequest="40"
+                    HorizontalOptions="End"/>
+                </StackLayout>
+
+                <ActivityIndicator
+                    IsRunning="{Binding IsRunning, Mode=TwoWay}"
+                    VerticalOptions="CenterAndExpand"/>
+
+                <Button
+                    Text="GUARDAR"
+                    BorderColor="#5489B2"
+                    TextColor="#5489B2"
+                    BorderWidth="1"
+                    BackgroundColor="Transparent"
+                    Command="{Binding SaveCommand}"
+                    IsEnabled="{Binding IsEnabled, Mode=TwoWay}"
+                    Margin="50,0"
+                    VerticalOptions="EndAndExpand"/>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>

@@ -27,6 +27,10 @@
                 case "EditCompanyView":
                     await Application.Current.MainPage.Navigation.PushAsync(new EditCompanyView());
                     break;
+
+                case "NewContactView":
+                    await Application.Current.MainPage.Navigation.PushAsync(new NewContactView());
+                    break;
             }
         }
 

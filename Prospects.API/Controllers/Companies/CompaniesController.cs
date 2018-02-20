@@ -105,16 +105,19 @@
             {
                 await db.SaveChangesAsync();
             }
-            catch (DbUpdateConcurrencyException)
+            catch (Exception ex)
             {
-                if (!CompanyExists(id))
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("Index"))
                 {
-                    return NotFound();
+                    return BadRequest("Este NIF já se existe na base de dados!");
                 }
                 else
                 {
-                    throw;
+                    return BadRequest(ex.Message);
                 }
+
             }
 
             return StatusCode(HttpStatusCode.NoContent);
@@ -163,7 +166,25 @@
             }
 
             db.Companies.Remove(company);
-            await db.SaveChangesAsync();
+
+            try
+            {
+                await db.SaveChangesAsync();
+            }
+            catch (Exception ex)
+            {
+                if (ex.InnerException != null &&
+                    ex.InnerException.InnerException != null &&
+                    ex.InnerException.InnerException.Message.Contains("REFERENCE"))
+                {
+                    return BadRequest("Esta empresa não pode ser apagada porque tem colaboradores relacionados!");
+                }
+                else
+                {
+                    return BadRequest(ex.Message);
+                }
+
+            }
 
             return Ok(company);
         }

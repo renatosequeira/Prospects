@@ -2,6 +2,7 @@
 {
     using GalaSoft.MvvmLight.Command;
     using Prospects.Models;
+    using Prospects.Models.Companies;
     using Prospects.Services;
     using Prospects.ViewModels.Companies;
     using Prospects.ViewModels.Contacts;
@@ -21,6 +22,8 @@
         public ContactsViewModel Contacts { get; set; }
         public NewCompanyViewModel NewCompany { get; set; }
         public EditCompanyViewModel EditCompany { get; set; }
+        public Company Company { get; set; } //para não perder de vista a empresa, quando se seleccionam os contactos
+        public NewContactViewModel NewContact { get; set; }
         #endregion
 
         #region Constructors
@@ -47,6 +50,20 @@
         #endregion
 
         #region Commands
+        public ICommand NewContactCommand
+        {
+            get
+            {
+                return new RelayCommand(GoNewContact);
+            }
+        }
+
+        async void GoNewContact()
+        {
+            NewContact = new NewContactViewModel();
+            await navigationService.Navigate("NewContactView");
+        }
+
         public ICommand NewCompanyCommand
         {
             get

@@ -102,6 +102,7 @@
         async void SelectCompany()
         {
             var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Company = this; //mantem a categoria visivel, quando se selecciona o contacto
             mainViewModel.Contacts = new ContactsViewModel(Contacts);
 
             await navigationService.Navigate("ContactsView");

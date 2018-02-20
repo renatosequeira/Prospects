@@ -1,6 +1,7 @@
 ﻿namespace Prospects.Domain
 {
     using System.Data.Entity;
+    using System.Data.Entity.ModelConfiguration.Conventions;
 
     public class DataContext : DbContext
     {
@@ -8,6 +9,12 @@
         {
 
         }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
+        }
+
 
         public DbSet<Contact> Contacts { get; set; }
 

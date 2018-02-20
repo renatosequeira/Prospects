@@ -5,6 +5,7 @@
     public class Contact
     {
         public int ContactId { get; set; }
+        public int CompanyId { get; set; }
         public string ContactName { get; set; }
         public string ContactMobile { get; set; }
         public string ContactEmail { get; set; }

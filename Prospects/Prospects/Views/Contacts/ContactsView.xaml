@@ -3,8 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Prospects.Views.Contacts.ContactsView"
              BindingContext="{Binding Main, Source={StaticResource Locator}}"
-             Title="CONTACTOS">
-    
+             Title="{Binding Company.CompanyName}">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem 
+            Icon="ic_add_user"
+            Command="{Binding NewContactCommand}"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
         <StackLayout
             BindingContext="{Binding Contacts}"

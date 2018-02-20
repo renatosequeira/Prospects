@@ -190,8 +190,19 @@
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
             Company company = await db.Companies.FindAsync(id);
-            db.Companies.Remove(company);
-            await db.SaveChangesAsync();
+
+            if (company.Contacts.Count > 0)
+            {
+                ViewBag.Message = "Esta empresa tem contactos associados e não pode ser apagada!";
+                return View();
+            }
+            else
+            {
+                db.Companies.Remove(company);
+                await db.SaveChangesAsync();
+                
+            }
+
             return RedirectToAction("Index");
         }
 
