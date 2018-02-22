@@ -25,7 +25,7 @@
 	<key>CFBundleDisplayName</key>
 	<string>Prospects</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.yourcompany.Prospects</string>
+	<string>pt.outstand.Prospects</string>
 	<key>CFBundleVersion</key>
 	<string>1.0</string>
 	<key>CFBundleIconFiles</key>
@@ -50,5 +50,9 @@
 	<string>LaunchScreen</string>
 	<key>CFBundleName</key>
 	<string>Prospects</string>
+	<key>NSCameraUsageDescription</key>
+	<string>NSPhotoLibraryUsageDescription</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Picture Picker uses photo library</string>
 </dict>
 </plist>

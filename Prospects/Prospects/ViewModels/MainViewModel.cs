@@ -7,6 +7,7 @@
     using Prospects.ViewModels.Companies;
     using Prospects.ViewModels.Contacts;
     using System;
+    using System.Collections.ObjectModel;
     using System.Windows.Input;
 
     public class MainViewModel
@@ -24,6 +25,9 @@
         public EditCompanyViewModel EditCompany { get; set; }
         public Company Company { get; set; } //para não perder de vista a empresa, quando se seleccionam os contactos
         public NewContactViewModel NewContact { get; set; }
+        public EditContactViewModel EditContact { get; set; }
+
+        public ObservableCollection<Menu> MyMenu { get; set; }
         #endregion
 
         #region Constructors
@@ -32,6 +36,8 @@
             instance = this;
             Login = new LoginViewModel();
             navigationService = new NavigationService();
+
+            LoadMenu();
         }
         #endregion
 
@@ -50,6 +56,22 @@
         #endregion
 
         #region Commands
+        public ICommand CompanyListCommand
+        {
+            get
+            {
+                return new RelayCommand(GoCompanyList);
+            }
+        }
+
+        async void GoCompanyList()
+        {
+            var mainViewModel = MainViewModel.GetInstance();
+            mainViewModel.Companies = new CompanyViewModel();
+
+            await navigationService.NavigateOnMaster("CompanyView");
+        }
+
         public ICommand NewContactCommand
         {
             get
@@ -61,7 +83,7 @@
         async void GoNewContact()
         {
             NewContact = new NewContactViewModel();
-            await navigationService.Navigate("NewContactView");
+            await navigationService.NavigateOnMaster("NewContactView");
         }
 
         public ICommand NewCompanyCommand
@@ -75,7 +97,36 @@
         async void GoNewCompany()
         {
             NewCompany = new NewCompanyViewModel();
-            await navigationService.Navigate("NewCompanyView");
+            await navigationService.NavigateOnMaster("NewCompanyView");
+        }
+        #endregion
+
+        #region Methods
+        private void LoadMenu()
+        {
+            MyMenu = new ObservableCollection<Menu>();
+
+            MyMenu.Add(new Menu
+            {
+                Icon = "ic_settings_50",
+                PageName = "MyProfile",
+                Title = "Meu Perfil"
+            });
+
+            MyMenu.Add(new Menu
+            {
+                Icon = "ic_maps_50",
+                PageName = "Locations",
+                Title = "Localizações"
+            });
+
+            MyMenu.Add(new Menu
+            {
+                Icon = "ic_exit_50",
+                PageName = "Exit",
+                Title = "Sair"
+            });
+
         }
         #endregion
     }

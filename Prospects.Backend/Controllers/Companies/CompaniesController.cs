@@ -12,6 +12,7 @@
     [Authorize]
     public class CompaniesController : Controller
     {
+
         private DataContextLocal db = new DataContextLocal();
 
         // GET: Companies
@@ -52,7 +53,8 @@
             if (ModelState.IsValid)
             {
                 var pic = string.Empty;
-                var folder = "~/Content/Images";
+                //var folder = "~/Content/Images";
+                var folder = "~/Images";
 
                 if (view.ImageFile != null)
                 {
@@ -149,7 +151,7 @@
             if (ModelState.IsValid)
             {
                 var pic = view.Image;
-                var folder = "~/Content/Images";
+                var folder = "~/Images";
 
                 if (view.ImageFile != null)
                 {

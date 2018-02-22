@@ -4,6 +4,7 @@
     using System.Collections.Generic;
     using System.Data.Entity;
     using System.Data.Entity.Infrastructure;
+    using System.IO;
     using System.Linq;
     using System.Net;
     using System.Threading.Tasks;
@@ -12,6 +13,7 @@
     using API.Models.Companies;
     using Domain;
     using Domain.Companies;
+    using Prospects.API.Helpers;
     using Prospects.API.Models.Contacts;
 
     [Authorize]
@@ -87,17 +89,35 @@
 
         // PUT: api/Companies/5
         [ResponseType(typeof(void))]
-        public async Task<IHttpActionResult> PutCompany(int id, Company company)
+        public async Task<IHttpActionResult> PutCompany(int id, CompanyRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != company.CompanyId)
+            if (id != request.CompanyId)
             {
                 return BadRequest();
             }
+
+            if (request.ImageArray != null && request.ImageArray.Length > 0)
+            {
+                var stream = new MemoryStream(request.ImageArray);
+                var guid = Guid.NewGuid().ToString();
+                var file = string.Format("{0}.jpg", guid);
+                //var folder = "~/Content/Images";
+                var folder = "~/Images";
+                var fullPath = string.Format("{0}/{1}", folder, file);
+                var response = FilesHelper.UploadPhoto(stream, folder, file);
+
+                if (response)
+                {
+                    request.Image = fullPath;
+                }
+            }
+
+            var company = ToCompany(request);
 
             db.Entry(company).State = EntityState.Modified;
 
@@ -125,14 +145,33 @@
 
         // POST: api/Companies
         [ResponseType(typeof(Company))]
-        public async Task<IHttpActionResult> PostCompany(Company company)
+        public async Task<IHttpActionResult> PostCompany(CompanyRequest request)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
+            if (request.ImageArray != null && request.ImageArray.Length > 0)
+            {
+                var stream = new MemoryStream(request.ImageArray);
+                var guid = Guid.NewGuid().ToString();
+                var file = string.Format("{0}.jpg", guid);
+                //var folder = "~/Content/Images";
+                var folder = "~/Images";
+                var fullPath = string.Format("{0}/{1}", folder, file);
+                var response = FilesHelper.UploadPhoto(stream, folder, file);
+
+                if (response)
+                {
+                    request.Image = fullPath;
+                }
+            }
+
+            var company = ToCompany(request);
+
             db.Companies.Add(company);
+
             try
             {
                 await db.SaveChangesAsync();
@@ -153,6 +192,30 @@
             }
 
             return CreatedAtRoute("DefaultApi", new { id = company.CompanyId }, company);
+        }
+
+        private Company ToCompany(CompanyRequest request)
+        {
+            return new Company
+            {
+                AddedDate = request.AddedDate,
+                Capital = request.Capital,
+                CompanyAddedBy = request.CompanyAddedBy,
+                CompanyAddress = request.CompanyAddress,
+                CompanyEmail = request.CompanyEmail,
+                CompanyId = request.CompanyId,
+                CompanyLegalForm = request.CompanyLegalForm,
+                CompanyName = request.CompanyName,
+                CompanyNIF = request.CompanyNIF,
+                CompanyNotes = request.CompanyNotes,
+                CompanyPhone = request.CompanyPhone,
+                CompanyProspectlStatus = request.CompanyProspectlStatus,
+                CompanySector = request.CompanySector,
+                CompanyWebsite = request.CompanyWebsite,
+                Contacts = request.Contacts,
+                Image = request.Image,
+                Status = request.Status
+            };
         }
 
         // DELETE: api/Companies/5

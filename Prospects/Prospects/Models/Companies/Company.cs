@@ -36,12 +36,19 @@
         public string Image { get; set; }
         public List<Contact> Contacts { get; set; }
 
-        public string ImageFullPath
+        public byte[] ImageArray { get; set; }
+
+        public string CompanyImageFullPath
         {
             get
             {
-                return string.Format("http://prospects.outstandservices.pt/{0}",
-                    Image.Substring(1));
+                if (string.IsNullOrEmpty(Image))
+                {
+                    return "no_image";
+                }
+
+                return string.Format("http://api.prospects.outstandservices.pt/{0}", Image.Substring(1));
+                //return string.Format("http://prospects.outstandservices.pt/{0}", Image.Substring(1));
             }
         }
         #endregion
@@ -72,7 +79,7 @@
                 return;
             }
 
-            CompanyViewModel.GetInstance().DeleteCompany(this);
+            await CompanyViewModel.GetInstance().DeleteCompany(this);
         }
 
         public ICommand EditCommand
@@ -88,7 +95,7 @@
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.EditCompany = new EditCompanyViewModel(this);
 
-            await navigationService.Navigate("EditCompanyView");
+            await navigationService.NavigateOnMaster("EditCompanyView");
         }
 
         public ICommand SelectCompanyCommand
@@ -105,7 +112,7 @@
             mainViewModel.Company = this; //mantem a categoria visivel, quando se selecciona o contacto
             mainViewModel.Contacts = new ContactsViewModel(Contacts);
 
-            await navigationService.Navigate("ContactsView");
+            await navigationService.NavigateOnMaster("ContactsView");
         }
         #endregion
 

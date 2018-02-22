@@ -1,0 +1,72 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Prospects.Views.HomePage"
+             BindingContext="{Binding Main, Source={StaticResource Locator}}"
+             Title="PRINCIPAL"
+             BackgroundColor="#5489B2">
+    
+    <ContentPage.Content>
+        <Grid
+            RowSpacing="5">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <Frame
+                Grid.Column="0"
+                Grid.Row="0"
+                HasShadow="True"
+                IsClippedToBounds="True"
+                OutlineColor="White"
+                Padding="10"
+                BackgroundColor="#6299BD"
+                Margin="5"
+                Opacity="0.9">
+
+                <StackLayout
+                    Orientation="Vertical">
+                    <Image
+                        Source="ic_company_100"
+                        VerticalOptions="CenterAndExpand"
+                        HorizontalOptions="Center"/>
+
+                    <Label
+                        Text="EMPRESAS"
+                        TextColor="White"
+                        FontSize="Large"
+                        HorizontalOptions="Center"
+                        VerticalOptions="CenterAndExpand"/>
+                </StackLayout>
+
+
+                <Frame.GestureRecognizers>
+                    <TapGestureRecognizer Command="{Binding CompanyListCommand}"/>
+                </Frame.GestureRecognizers>
+            </Frame>
+
+            <Frame
+                Grid.Column="0"
+                Grid.Row="1"
+                HasShadow="True"
+                IsClippedToBounds="True"
+                OutlineColor="White"
+                Padding="10"
+                BackgroundColor="#6299BD"
+                Margin="5"
+                Opacity="0.9">
+                <Image
+                    Source="ic_settings_100"
+                    VerticalOptions="CenterAndExpand"
+                    HorizontalOptions="Center"/>
+            </Frame>
+            
+        </Grid>
+    </ContentPage.Content>
+    
+</ContentPage>

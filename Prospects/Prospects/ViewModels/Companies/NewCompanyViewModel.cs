@@ -1,11 +1,15 @@
 ﻿namespace Prospects.ViewModels.Companies
 {
     using GalaSoft.MvvmLight.Command;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
+    using Prospects.Helpers;
     using Prospects.Models.Companies;
     using Prospects.Services;
     using System;
     using System.ComponentModel;
     using System.Windows.Input;
+    using Xamarin.Forms;
 
     public class NewCompanyViewModel : INotifyPropertyChanged
     {
@@ -22,6 +26,8 @@
         #region Attributes
         bool _isRunning;
         bool _isEnabled;
+        ImageSource _imageSource;
+        MediaFile file;
         #endregion
 
         #region Properties
@@ -70,6 +76,30 @@
         public string CompanySector { get; set; }
 
         public string CompanyNIF { get; set; }
+
+        public string Image { get; set; }
+
+        public DateTime AddedDate { get; set; }
+
+        public ImageSource ImageSource
+        {
+            set
+            {
+                if (_imageSource != value)
+                {
+                    _imageSource = value;
+                    PropertyChanged?.Invoke(
+                        this,
+                        new PropertyChangedEventArgs(nameof(ImageSource)));
+                }
+            }
+            get
+            {
+                return _imageSource;
+            }
+        }
+
+        public string LabelDeImagem { get; set; }
         #endregion
 
         #region Constructors
@@ -80,10 +110,80 @@
             navigationService = new NavigationService();
 
             IsEnabled = true;
+
+            ImageSource = "no_image";
+            LabelDeImagem = "Clique para adicionar imagem";
         }
         #endregion
 
         #region Commands
+        public ICommand ChangeImageCommand
+        {
+            get
+            {
+                return new RelayCommand(ChangeImage);
+            }
+        }
+
+        async void ChangeImage()
+        {
+            await CrossMedia.Current.Initialize();
+
+            if (CrossMedia.Current.IsCameraAvailable &&
+                CrossMedia.Current.IsTakePhotoSupported)
+            {
+                var source = await dialogService.ShowImageOptions();
+
+                if (source == "Cancel")
+                {
+                    file = null;
+                    return;
+                }
+
+                if (source == "From Camera")
+                {
+                    DateTime data = DateTime.Now;
+                    TimeSpan hora = data.TimeOfDay;
+
+                    file = await CrossMedia.Current.TakePhotoAsync(
+                        new StoreCameraMediaOptions
+                        {
+                            Directory = "Prospects",
+                            Name = String.Format("Parents_{0:dd/MM/yyyy}_{1}.jpg", data, data.TimeOfDay),
+                            PhotoSize = PhotoSize.Small,
+                            SaveToAlbum = true
+                        }
+                    );
+                }
+                else
+                {
+                    file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+                    {
+                        PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+                    });
+                }
+            }
+            else
+            {
+                file = await Plugin.Media.CrossMedia.Current.PickPhotoAsync(new Plugin.Media.Abstractions.PickMediaOptions
+                {
+                    PhotoSize = Plugin.Media.Abstractions.PhotoSize.Medium
+                });
+            }
+
+            if (file != null)
+            {
+                ImageSource = ImageSource.FromStream(() =>
+                {
+                    var stream = file.GetStream();
+                    return stream;
+                });
+
+                LabelDeImagem = "Clique para modificar imagem";
+            }
+        }
+
+
         public ICommand SaveCommand
         {
             get
@@ -109,6 +209,22 @@
             IsRunning = true;
             IsEnabled = false;
 
+            byte[] imageArray = null;
+
+            try
+            {
+                if (file != null)
+                {
+                    imageArray = FilesHelper.ReadFully(file.GetStream());
+                    file.Dispose();
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
             var connection = await apiService.CheckConnection();
 
             if (!connection.IsSuccess)
@@ -118,6 +234,10 @@
                 await dialogService.ShowMessage("Error", connection.Message);
                 return;
             }
+
+
+            var mainViewModel = MainViewModel.GetInstance();
+
 
             var company = new Company
             {
@@ -129,10 +249,9 @@
                 CompanyWebsite = CompanyWebsite,
                 CompanySector = CompanySector,
                 CompanyNIF = CompanyNIF,
-                Image = "no_image"
+                ImageArray = imageArray
+                
             };
-
-            var mainViewModel = MainViewModel.GetInstance();
 
             var response = await apiService.Post(
                 "http://api.prospects.outstandservices.pt",
@@ -155,7 +274,7 @@
             var companyViewModel = CompanyViewModel.GetInstance();
             companyViewModel.AddCompany(company);
 
-            await navigationService.Back();
+            await navigationService.BackOnMaster();
 
             IsEnabled = true;
             IsRunning = false;

@@ -1,14 +1,18 @@
 ﻿namespace Prospects.ViewModels.Contacts
 {
+    using Prospects.Models.Contacts;
     using GalaSoft.MvvmLight.Command;
     using Models.Companies;
-    using Models.Contacts;
+    using Plugin.Media;
+    using Plugin.Media.Abstractions;
+    using Prospects.Helpers;
     using Services;
     using System;
     using System.ComponentModel;
     using System.Windows.Input;
+    using Xamarin.Forms;
 
-    public class NewContactViewModel : INotifyPropertyChanged
+    public class EditContactViewModel : INotifyPropertyChanged
     {
         #region Events
         public event PropertyChangedEventHandler PropertyChanged;
@@ -23,6 +27,8 @@
         #region Attributes
         bool _isRunning;
         bool _isEnabled;
+        bool _enableCompanyEdit;
+        Contact contact;
         #endregion
 
         #region Properties
@@ -66,18 +72,48 @@
 
         public string ContactWebsite { get; set; }
 
-        public string AddedDate { get; set; }
+        public string ContactCompany { get; set; }
 
         public string ContactPositionInCompany { get; set; }
 
+        public bool EnableCompanyEdit
+        {
+            get
+            {
+                return _enableCompanyEdit;
+            }
+            set
+            {
+                if (_enableCompanyEdit != value)
+                {
+                    _enableCompanyEdit = value;
+                    PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(nameof(EnableCompanyEdit)));
+                }
+            }
+        }
         #endregion
 
         #region Constructors
-        public NewContactViewModel()
+        public EditContactViewModel(Contact contact)
         {
+            this.contact = contact;
+
             apiService = new ApiService();
             dialogService = new DialogService();
             navigationService = new NavigationService();
+
+            ContactName = contact.ContactName;
+            ContactMobile = contact.ContactMobile;
+            ContactEmail = contact.ContactEmail;
+            ContactWebsite = contact.ContactWebsite;
+            ContactCompany = contact.ContactCompany;
+            ContactPositionInCompany = contact.ContactPositionInCompany;
+
+            if (string.IsNullOrEmpty(ContactCompany))
+            {
+                //EnableCompanyEdit = true;
+                ContactCompany = MainViewModel.GetInstance().Company.CompanyName;
+            }
 
             IsEnabled = true;
         }
@@ -109,20 +145,6 @@
             IsRunning = true;
             IsEnabled = false;
 
-            var mainViewModel = MainViewModel.GetInstance();
-
-            var contact = new Contact
-            {
-                AddedDate = DateTime.Today,
-                ContactCompany = mainViewModel.Company.CompanyName,
-                CompanyId = mainViewModel.Company.CompanyId,
-                ContactName = ContactName,
-                ContactMobile = ContactMobile,
-                ContactEmail = ContactEmail,
-                ContactWebsite = ContactWebsite,
-                ContactPositionInCompany = ContactPositionInCompany
-            };
-
             var connection = await apiService.CheckConnection();
 
             if (!connection.IsSuccess)
@@ -133,7 +155,15 @@
                 return;
             }
 
-            var response = await apiService.Post(
+            var mainViewModel = MainViewModel.GetInstance();
+
+            contact.ContactName = ContactName;
+            contact.ContactMobile = ContactMobile;
+            contact.ContactEmail = ContactEmail;
+            contact.CompanyId = mainViewModel.Company.CompanyId;
+            contact.ContactPositionInCompany = ContactPositionInCompany;
+
+            var response = await apiService.Put(
                 "http://api.prospects.outstandservices.pt",
                 "/api",
                 "/Contacts",
@@ -149,10 +179,8 @@
                 return;
             }
 
-            contact = (Contact)response.Result;
-
-            var contactsViewModel = ContactsViewModel.GetInstance();
-            contactsViewModel.AddContact(contact);
+            var contactViewModel = ContactsViewModel.GetInstance();
+            contactViewModel.UpdateContact(contact);
 
             await navigationService.BackOnMaster();
 

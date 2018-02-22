@@ -167,6 +167,29 @@
                     HorizontalOptions="End"/>
                 </StackLayout>
 
+                <!--IMAGEM-->
+                <StackLayout
+                    Orientation="Vertical"
+                    HorizontalOptions="CenterAndExpand"
+                    Spacing="10">
+                    
+                    <!--IMAGE-->
+                    <Image
+                        Source="{Binding ImageSource}"
+                        HeightRequest="100"
+                        WidthRequest="100">
+                            <Image.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ChangeImageCommand}"/>
+                            </Image.GestureRecognizers>
+                    </Image>
+
+                    <Label
+                        Text="{Binding LabelDeImagem}"
+                        HorizontalOptions="CenterAndExpand"
+                        FontSize="Small"/>
+
+                </StackLayout>
+
                 <ActivityIndicator
                     IsRunning="{Binding IsRunning, Mode=TwoWay}"
                     VerticalOptions="CenterAndExpand"/>

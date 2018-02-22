@@ -69,6 +69,8 @@
 
             apiService = new ApiService();
             dialogService = new DialogService();
+
+            
             LoadCompanies();
         }
         #endregion

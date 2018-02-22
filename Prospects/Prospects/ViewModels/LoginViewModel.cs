@@ -187,9 +187,10 @@
 
             var mainViewModel = MainViewModel.GetInstance();
             mainViewModel.Token = response;
-            mainViewModel.Companies = new CompanyViewModel();
+            //mainViewModel.Companies = new CompanyViewModel();
 
-            await navigationService.Navigate("CompanyView");
+            //await navigationService.Navigate("CompanyView");
+            navigationService.SetMainPage("MasterView");
 
             Email = null;
             Password = null;

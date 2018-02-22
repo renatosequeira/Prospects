@@ -14,5 +14,16 @@
         {
             return await Application.Current.MainPage.DisplayAlert(title, message, "SIM", "NÃO");
         }
+
+        public async Task<string> ShowImageOptions()
+        {
+            return await Application.Current.MainPage.DisplayActionSheet(
+                "Seleccionar imagem de?",
+                "Cancel",
+                null,
+                "Galeria",
+                "From Camera");
+        }
+
     }
 }

@@ -42,9 +42,9 @@
     <tr>
         <td>
             @if (!string.IsNullOrEmpty(item.Image))
-                {
-                   <img src="@Url.Content(item.Image)" alt="Company Logo" style="width:100px;height:100px;max-width: 100%; height: auto;" />
-                }
+            {
+                <img src="@Url.Content(item.Image)" alt="Company Logo" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+            }
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.CompanyName)

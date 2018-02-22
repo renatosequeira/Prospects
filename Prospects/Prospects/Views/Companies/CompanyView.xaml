@@ -47,9 +47,9 @@
                                 
                                 <Image
                                     Grid.Column="0"
-                                    Source="{Binding ImageFullPath}"
+                                    Source="{Binding CompanyImageFullPath}"
                                     WidthRequest="100"
-                                    HorizontalOptions="End">
+                                    HorizontalOptions="Start">
                                 </Image>
                                 
                                 <Label
