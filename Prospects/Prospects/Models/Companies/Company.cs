@@ -35,7 +35,8 @@
         public DateTime AddedDate { get; set; }
         public string Image { get; set; }
         public List<Contact> Contacts { get; set; }
-
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
         public byte[] ImageArray { get; set; }
 
         public string CompanyImageFullPath

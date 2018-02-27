@@ -1,0 +1,74 @@
+﻿@model Prospects.Domain.Communications.Communication
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Communication</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Contact.ContactName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Contact.ContactName)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationType)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationType)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationDate)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationDate)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationResponsible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationResponsible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationReply)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationReply)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationReplyStatus)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationReplyStatus)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationDescription)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationDescription)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CommunicationId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

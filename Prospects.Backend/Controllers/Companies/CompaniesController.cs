@@ -8,17 +8,44 @@
     using Prospects.Backend.Models;
     using Prospects.Domain.Companies;
     using Prospects.Backend.Helpers;
+    using System.Linq;
 
     [Authorize]
-    public class CompaniesController : Controller
+    public class CompaniesController : ApplicationBaseController
     {
 
         private DataContextLocal db = new DataContextLocal();
 
         // GET: Companies
-        public async Task<ActionResult> Index()
+        public async Task<ActionResult> Index(string searchBy, string search)
         {
-            return View(await db.Companies.ToListAsync());
+            if (searchBy == "CompanyName")
+            {
+                return View(await db.Companies.Where(c => c.CompanyName.StartsWith(search) || search == null).ToListAsync());
+            }
+            else if(searchBy == "CompanySector")
+            {
+                return View(await db.Companies.Where(c => c.CompanySector.StartsWith(search) || search == null).ToListAsync());
+            }
+            else
+            {
+                switch (search)
+                {
+                    case "on":
+                        return View(await db.Companies.Where(c => c.Status || search == null).ToListAsync());
+                    case "ON":
+                        return View(await db.Companies.Where(c => c.Status || search == null).ToListAsync());
+                    case "off":
+                        return View(await db.Companies.Where(c => c.Status == false || search == null).ToListAsync());
+                    case "Off":
+                        return View(await db.Companies.Where(c => c.Status == false || search == null).ToListAsync());
+                    case "OFF":
+                        return View(await db.Companies.Where(c => c.Status == false || search == null).ToListAsync());
+                    default:
+                        return View(await db.Companies.ToListAsync());
+                        //return View(await db.Companies.Where(c => c.CompanyNIF == search || search == null).ToListAsync()); 
+                }
+            } 
         }
 
         // GET: Companies/Details/5
@@ -42,6 +69,7 @@
         // GET: Companies/Create
         public ActionResult Create()
         {
+            ViewBag.ActivitySectorId = new SelectList(db.ActivitySectors.OrderBy(c => c.Description), "ActivitySectorId", "Description");
             return View();
         }
 
@@ -66,6 +94,16 @@
                 company.Image = pic;
 
                 company.AddedDate = DateTime.Today;
+
+                if (string.IsNullOrEmpty(company.Latitude))
+                {
+                    company.Latitude = "0";
+                }
+
+                if (string.IsNullOrEmpty(company.Longitude))
+                {
+                    company.Longitude = "0";
+                }
 
                 db.Companies.Add(company);
                 await db.SaveChangesAsync();
@@ -95,14 +133,19 @@
                 CompanyWebsite = view.CompanyWebsite,
                 Contacts = view.Contacts,
                 Image = view.Image,
-                Status = view.Status
+                Status = view.Status,
+                Latitude = view.Latitude,
+                Longitude = view.Longitude,
+                CAEPrincipal = view.CAEPrincipal,
+                ActivitySector = view.ActivitySector,
+                ActivitySectorId = view.ActivitySectorId
             };
         }
 
         // GET: Companies/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
-            if (id == null)
+           if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
@@ -116,6 +159,8 @@
 
             var view = ToView(company);
 
+            
+            ViewBag.ActivitySectorId = new SelectList(db.ActivitySectors.OrderBy(c => c.Description), "ActivitySectorId", "Description", company.ActivitySectorId);
             return View(view);
         }
 
@@ -139,7 +184,12 @@
                 CompanyWebsite = company.CompanyWebsite,
                 Contacts = company.Contacts,
                 Image = company.Image,
-                Status = company.Status
+                Status = company.Status,
+                Latitude = company.Latitude,
+                Longitude = company.Longitude,
+                CAEPrincipal = company.CAEPrincipal,
+                ActivitySector = company.ActivitySector,
+                ActivitySectorId = company.ActivitySectorId
             };
         }
 
@@ -148,6 +198,7 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CompanyView view)
         {
+            
             if (ModelState.IsValid)
             {
                 var pic = view.Image;
@@ -168,6 +219,7 @@
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
+
             return View(view);
         }
 

@@ -7,7 +7,6 @@
 <h2>Details</h2>
 
 <div>
-    <h4>Company</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
@@ -98,7 +97,79 @@
             @Html.DisplayFor(model => model.CompanyProspectlStatus)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.Latitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Latitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Longitude)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Longitude)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.CAEPrincipal)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CAEPrincipal)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ActivitySector)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ActivitySector.Description)
+        </dd>
     </dl>
+
+    <hr class="dl-horizontal" />
+
+    @if (Model.Contacts != null)
+    {
+    <h2>CONTACTOS @Model.CompanyName</h2>
+
+            <p>@Html.ActionLink("+", "Create", "Contacts", new { comp = Model.CompanyId }, new { @class = "btn btn-success btn-small" })</p>
+
+        <table class="table table-responsive table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <td>Nome</td>
+                    <td>Email</td>
+                    <td>Contactado</td>
+                </tr>
+            </thead>
+
+            @foreach (var contact in Model.Contacts.OrderBy(c => c.ContactName))
+            {
+                <tr>
+                    <td><b>@contact.ContactName</b></td>
+                    <td>@contact.ContactEmail</td>
+                    <td>@if (contact.Communications.Count > 0)
+                    {
+                        <img src="~/Content/Images/ic_checked.png" width="20"/>
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/ic_unchecked.png" width="20"/>
+                    }
+                    </td>
+                    <td>@Html.ActionLink("Ver", "Details", "Contacts", new { id = contact.ContactId }, new { @class = "btn btn-success btn-btn-small" })</td>
+                </tr>
+            }
+        </table>
+    }
+    else
+    {
+        <p>No jobs found</p>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.CompanyId }) |

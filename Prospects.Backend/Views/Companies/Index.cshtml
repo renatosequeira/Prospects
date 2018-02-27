@@ -1,13 +1,34 @@
 ﻿@model IEnumerable<Prospects.Domain.Companies.Company>
 
-@{
-    ViewBag.Title = "Index";
-}
+    @{
+        ViewBag.Title = "Index";
+    }
+
+@*@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}*@
 
 <h2>Empresas</h2>
 
 <p>
-    @Html.ActionLink("Create New", "Create", new { }, new { @class= "btn btn-primary"})
+    @*@Html.ActionLink("Adicionar", "Create", new { }, new { @class = "btn btn-primary" })*@
+
+    <a href='@Url.Action("Create","Companies")' class="btn btn-primary">
+        <img src="~/Content/Images/ic_new_company_white.png" width="25" />
+        <span><b>Adicionar</b></span>
+    </a>
+</p>
+
+<p>
+    @using (Html.BeginForm("Index", "Companies", FormMethod.Get))
+    {
+        <b> Procurar por:</b>
+        @Html.RadioButton("searchBy", "CompanyName", true) <text>Empresa</text>
+        @Html.RadioButton("searchBy", "CompanySector", false) <text>Sector</text>
+        @Html.RadioButton("searchBy", "Status", false)<text>Status (on/off)</text>
+        <br />
+        @Html.TextBox("search") <input type="submit" value="Procurar" />
+    }
 </p>
 <table class="table">
     <tr>
@@ -18,16 +39,13 @@
             @Html.DisplayNameFor(model => model.CompanyName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.CompanyPhone)
-        </th>
-        <th>
             @Html.DisplayNameFor(model => model.CompanyEmail)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.CompanyWebsite)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Capital)
+            Sector
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Status)
@@ -38,41 +56,75 @@
         <th></th>
     </tr>
 
-@foreach (var item in Model) {
-    <tr>
-        <td>
-            @if (!string.IsNullOrEmpty(item.Image))
-            {
-                <img src="@Url.Content(item.Image)" alt="Company Logo" style="width:100px;height:100px;max-width: 100%; height: auto;" />
-            }
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyPhone)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyEmail)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyWebsite)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanySector)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Status)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.CompanyProspectlStatus)
-        </td>
-        <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.CompanyId }, new { @class = "btn btn-warning" }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CompanyId }, new { @class = "btn btn-info" }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId }, new { @class = "btn btn-danger" })
-        </td>
-    </tr>
-}
+    @if (Model.Count() == 0)
+    {
+        <tr>
+            <td colspan="7"><p><b>SEM RESULTADOS ENCONTRADOS</b></p></td>
+        </tr>
+    }
+    else
+    {
+
+        foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @if (!string.IsNullOrEmpty(item.Image))
+                    {
+                        <img src="@Url.Content(item.Image)" alt="Company Logo" style="width:100px;height:100px;max-width: 100%; height: auto;" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyEmail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyWebsite)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ActivitySector.Description)
+                </td>
+                <td>
+                    @*@Html.DisplayFor(modelItem => item.Status)*@
+                    @if (item.Status)
+                    {
+                        <img src="~/Content/Images/ic_on.png" width="30" />
+                    }
+                    else
+                    {
+                        <img src="~/Content/Images/ic_off.png" width="30" />
+                    }
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CompanyProspectlStatus)
+                </td>
+                <td>
+                    @*@Html.ActionLink("Edit", "Edit", new { id = item.CompanyId }, new { @class = "btn btn-warning" })
+                        |
+                        @Html.ActionLink("Details", "Details", new { id = item.CompanyId }, new { @class = "btn btn-info" }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = item.CompanyId }, new { @class = "btn btn-danger" }) |*@
+
+                    <a href="@Url.Action("Edit", "Companies", new { id=item.CompanyId })" title="Editar empresa">
+                        <img src="~/Content/Images/btn_edit.png" width="30" />
+                    </a>
+
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Details", "Companies", new { id=item.CompanyId })" title="Detalhes da empresa">
+                        <img src="~/Content/Images/btn_details.png" width="30" />
+                    </a>
+                </td>
+
+                <td>
+                    <a href="@Url.Action("Delete", "Companies", new { id=item.CompanyId })" title="Apagar empresa">
+                        <img src="~/Content/Images/btn_delete.png" width="30" />
+                    </a>
+                </td>
+            </tr>
+        }
+    }
 
 </table>

@@ -7,11 +7,16 @@
     using System.Web.Mvc;
     using Prospects.Backend.Models;
     using Prospects.Domain;
+    using System.Linq;
+    using System.Web.Routing;
 
     [Authorize]
-    public class ContactsController : Controller
+    public class ContactsController : ApplicationBaseController
     {
         private DataContextLocal db = new DataContextLocal();
+
+        public static DateTime _addedDate { get; set; }
+
 
         // GET: Contacts
         public async Task<ActionResult> Index()
@@ -36,9 +41,17 @@
         }
 
         // GET: Contacts/Create
-        public ActionResult Create()
+        public ActionResult Create(int? comp)
         {
-            ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "CompanyName");
+            if(comp == null)
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies.OrderBy(c => c.CompanyName), "CompanyId", "CompanyName");
+            }
+            else
+            {
+                ViewBag.CompanyId = new SelectList(db.Companies.Where(c => c.CompanyId == comp), "CompanyId", "CompanyName");
+            }
+
             return View();
         }
 
@@ -53,7 +66,8 @@
 
                 db.Contacts.Add(contact);
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", new RouteValueDictionary(new { controller = "Companies", action = "Details", Id = contact.CompanyId }));
             }
 
             ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "CompanyName", contact.CompanyId);
@@ -68,6 +82,9 @@
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Contact contact = await db.Contacts.FindAsync(id);
+
+            _addedDate = contact.AddedDate;
+
             if (contact == null)
             {
                 return HttpNotFound();
@@ -77,14 +94,15 @@
         }
 
         // POST: Contacts/Edit/5
-        // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
-        // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
+
         [HttpPost]
         [ValidateAntiForgeryToken]
+        
         public async Task<ActionResult> Edit(Contact contact)
         {
             if (ModelState.IsValid)
             {
+                contact.AddedDate = _addedDate;
                 db.Entry(contact).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");

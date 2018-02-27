@@ -65,6 +65,10 @@ namespace Prospects.Backend.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "User name")]
+        public string UserFirstAndLastName { get; set; }
+
+        [Required]
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }

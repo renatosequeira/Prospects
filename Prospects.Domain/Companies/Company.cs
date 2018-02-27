@@ -1,6 +1,7 @@
 ﻿namespace Prospects.Domain.Companies
 {
     using Newtonsoft.Json;
+    using Prospects.Domain.Companies.Helpers;
     using System;
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
@@ -63,5 +64,19 @@
         public virtual ICollection<Contact> Contacts { get; set; }
 
         public string Image { get; set; }
+
+        public string Latitude { get; set; }
+
+        public string Longitude { get; set; }
+
+        [Display(Name = "CAE principal")]
+        public string CAEPrincipal { get; set; }
+
+
+        [Display(Name = "Sector Actividade")]
+        public int? ActivitySectorId { get; set; }
+
+        [JsonIgnore]
+        public virtual ActivitySector ActivitySector { get; set; }
     }
 }

@@ -6,6 +6,7 @@
     using Prospects.Services;
     using Prospects.ViewModels.Companies;
     using Prospects.ViewModels.Contacts;
+    using Prospects.ViewModels.Maps;
     using System;
     using System.Collections.ObjectModel;
     using System.Windows.Input;
@@ -26,7 +27,7 @@
         public Company Company { get; set; } //para não perder de vista a empresa, quando se seleccionam os contactos
         public NewContactViewModel NewContact { get; set; }
         public EditContactViewModel EditContact { get; set; }
-
+        public LocationsViewModel Locations { get; set; }
         public ObservableCollection<Menu> MyMenu { get; set; }
         #endregion
 

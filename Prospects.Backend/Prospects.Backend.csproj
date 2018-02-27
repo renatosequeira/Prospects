@@ -190,7 +190,11 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\ApplicationBaseController.cs" />
+    <Compile Include="Controllers\Communications\CommunicationsController.cs" />
+    <Compile Include="Controllers\Communications\Helpers\CommunicationTypesController.cs" />
     <Compile Include="Controllers\Companies\CompaniesController.cs" />
+    <Compile Include="Controllers\Companies\Helpers\ActivitySectorsController.cs" />
     <Compile Include="Controllers\Contacts\ContactsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -198,10 +202,19 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FilesHelper.cs" />
+    <Compile Include="Migrations\201802271309190_ActivitySector.cs" />
+    <Compile Include="Migrations\201802271309190_ActivitySector.Designer.cs">
+      <DependentUpon>201802271309190_ActivitySector.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201802271324124_ActivitySectorId.cs" />
+    <Compile Include="Migrations\201802271324124_ActivitySectorId.Designer.cs">
+      <DependentUpon>201802271324124_ActivitySectorId.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\CompanyView.cs" />
     <Compile Include="Models\DataContextLocal.cs" />
+    <Compile Include="Models\DisplayFullName.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -210,7 +223,19 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\Images\btn_delete.png" />
+    <Content Include="Content\Images\btn_details.png" />
+    <Content Include="Content\Images\btn_edit.png" />
+    <Content Include="Content\Images\ic_checked.png" />
+    <Content Include="Content\Images\ic_edit_white.png" />
+    <Content Include="Content\Images\ic_new_company.png" />
+    <Content Include="Content\Images\ic_new_company_white.png" />
+    <Content Include="Content\Images\ic_off.png" />
+    <Content Include="Content\Images\ic_on.png" />
+    <Content Include="Content\Images\ic_unchecked.png" />
+    <Content Include="Content\Images\leads-prospects.gif" />
     <Content Include="Content\Images\Logo.png" />
+    <Content Include="Content\Images\LogoProspects.png" />
     <Content Include="favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
@@ -276,9 +301,26 @@
     <Content Include="Views\Contacts\Details.cshtml" />
     <Content Include="Views\Contacts\Edit.cshtml" />
     <Content Include="Views\Contacts\Index.cshtml" />
+    <Content Include="Views\Communications\Create.cshtml" />
+    <Content Include="Views\Communications\Delete.cshtml" />
+    <Content Include="Views\Communications\Details.cshtml" />
+    <Content Include="Views\Communications\Edit.cshtml" />
+    <Content Include="Views\Communications\Index.cshtml" />
+    <Content Include="Views\Shared\_Settings.cshtml" />
+    <Content Include="Views\CommunicationTypes\Create.cshtml" />
+    <Content Include="Views\CommunicationTypes\Delete.cshtml" />
+    <Content Include="Views\CommunicationTypes\Details.cshtml" />
+    <Content Include="Views\CommunicationTypes\Edit.cshtml" />
+    <Content Include="Views\CommunicationTypes\Index.cshtml" />
+    <Content Include="Views\ActivitySectors\Create.cshtml" />
+    <Content Include="Views\ActivitySectors\Delete.cshtml" />
+    <Content Include="Views\ActivitySectors\Details.cshtml" />
+    <Content Include="Views\ActivitySectors\Edit.cshtml" />
+    <Content Include="Views\ActivitySectors\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\ApplicationBase\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -298,6 +340,14 @@
       <Project>{b4df697c-01bb-4dc3-ad77-0b477e49f1a5}</Project>
       <Name>Prospects.Domain</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\201802271309190_ActivitySector.resx">
+      <DependentUpon>201802271309190_ActivitySector.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201802271324124_ActivitySectorId.resx">
+      <DependentUpon>201802271324124_ActivitySectorId.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

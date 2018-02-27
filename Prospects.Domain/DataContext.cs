@@ -19,5 +19,11 @@
         public DbSet<Contact> Contacts { get; set; }
 
         public DbSet<Companies.Company> Companies { get; set; }
+
+        public DbSet<Communications.Communication> Communications { get; set; }
+
+        public DbSet<Communications.Helpers.CommunicationType> CommunicationTypes { get; set; }
+
+        public DbSet<Companies.Helpers.ActivitySector> ActivitySectors { get; set; }
     }
 }

@@ -3,6 +3,7 @@
     using Prospects.Views;
     using Prospects.Views.Companies;
     using Prospects.Views.Contacts;
+    using Prospects.Views.Maps;
     using System;
     using System.Threading.Tasks;
     using Xamarin.Forms;
@@ -54,6 +55,10 @@
 
                 case "HomePage":
                     await App.Navigator.PushAsync(new HomePage());
+                    break;
+
+                case "LocationsView":
+                    await App.Navigator.PushAsync(new LocationsView());
                     break;
             }
         }

@@ -1,19 +1,16 @@
-﻿using System;
-using System.Globalization;
-using System.Linq;
-using System.Security.Claims;
-using System.Threading.Tasks;
-using System.Web;
-using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Prospects.Backend.Models;
-
-namespace Prospects.Backend.Controllers
+﻿namespace Prospects.Backend.Controllers
 {
+    using System.Linq;
+    using System.Threading.Tasks;
+    using System.Web;
+    using System.Web.Mvc;
+    using Microsoft.AspNet.Identity;
+    using Microsoft.AspNet.Identity.Owin;
+    using Microsoft.Owin.Security;
+    using Prospects.Backend.Models;
+
     [Authorize]
-    public class AccountController : Controller
+    public class AccountController : ApplicationBaseController
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
@@ -116,10 +113,6 @@ namespace Prospects.Backend.Controllers
                 return View(model);
             }
 
-            // O código a seguir protege de ataques de força bruta em relação aos códigos de dois fatores. 
-            // Se um usuário inserir códigos incorretos para uma quantidade especificada de tempo, então a conta de usuário 
-            // será bloqueado por um período especificado de tempo. 
-            // Você pode configurar os ajustes de bloqueio da conta em IdentityConfig
             var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
@@ -151,18 +144,13 @@ namespace Prospects.Backend.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, UserFirstAndLastName = model.UserFirstAndLastName };
+                
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // Para obter mais informações sobre como habilitar a confirmação da conta e redefinição de senha, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Enviar um email com este link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirmar sua conta", "Confirme sua conta clicando <a href=\"" + callbackUrl + "\">aqui</a>");
-
+                   
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

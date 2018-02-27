@@ -45,7 +45,8 @@
                         ContactMobile = contact.ContactMobile,
                         ContactName = contact.ContactName,
                         ContactPositionInCompany = contact.ContactPositionInCompany,
-                        ContactWebsite = contact.ContactWebsite
+                        ContactWebsite = contact.ContactWebsite,
+                        
                     });
                 }
 
@@ -67,7 +68,9 @@
                     CompanyWebsite = company.CompanyWebsite,
                     Image = company.Image,
                     Status = company.Status,
-                    Contacts = contactsResponse
+                    Contacts = contactsResponse,
+                    Latitude = company.Latitude,
+                    Longitude = company.Longitude
                 });
             }
 
@@ -214,7 +217,9 @@
                 CompanyWebsite = request.CompanyWebsite,
                 Contacts = request.Contacts,
                 Image = request.Image,
-                Status = request.Status
+                Status = request.Status,
+                Latitude = request.Latitude,
+                Longitude = request.Longitude
             };
         }
 

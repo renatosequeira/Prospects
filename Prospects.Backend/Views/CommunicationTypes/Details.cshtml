@@ -1,0 +1,26 @@
+﻿@model Prospects.Domain.Communications.Helpers.CommunicationType
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>CommunicationType</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.CommunicationTypeName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CommunicationTypeName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.CommunicationTypeId }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

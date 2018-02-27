@@ -4,6 +4,6 @@
 
     public class DataContextLocal : DataContext
     {
-       
+        
     }
 }

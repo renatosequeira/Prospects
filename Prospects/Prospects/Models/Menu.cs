@@ -3,7 +3,9 @@
     using GalaSoft.MvvmLight.Command;
     using Prospects.Services;
     using Prospects.ViewModels;
+    using Prospects.ViewModels.Maps;
     using System;
+    using System.Threading.Tasks;
     using System.Windows.Input;
 
     public class Menu
@@ -34,13 +36,18 @@
             }
         }
 
-        void Navigate()
+        async void Navigate()
         {
             switch (PageName)
             {
                 case "Exit":
                     MainViewModel.GetInstance().Login = new LoginViewModel();
                     navigationService.SetMainPage("LoginView");
+                    break;
+
+                case "Locations":
+                    MainViewModel.GetInstance().Locations = new LocationsViewModel();
+                    await navigationService.NavigateOnMaster("LocationsView");
                     break;
             }
         }

@@ -90,7 +90,62 @@
             @Html.DisplayFor(model => model.ContactPositionInCompany)
         </dd>
 
+        <dt>
+            @Html.DisplayNameFor(model => model.LinkedInProfile)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LinkedInProfile)
+        </dd>
+
+        @Html.DisplayNameFor(model => model.ContactNotes)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContactNotes)
+        </dd>
+
     </dl>
+
+    @if (Model.Communications != null)
+    {
+        <h2>COMUNICAÇÕES @Model.ContactName</h2>
+
+        <p>@Html.ActionLink("+", "Create", "Communications", new { cont = Model.ContactId }, new { @class = "btn btn-success btn-small" })</p>
+
+        <table class="table table-responsive table-hover">
+            <thead class="thead-dark">
+                <tr>
+                    <td>Data Contacto</td>
+                    <td>Descrição Contacto</td>
+                    <td>Respondido</td>
+                </tr>
+            </thead>
+
+            @foreach (var contact in Model.Communications.OrderBy(c => c.CommunicationDate))
+            {
+                <tr>
+                    <td><b>@contact.CommunicationDate</b></td>
+                    <td>@contact.CommunicationDescription</td>
+                    <td>
+                        @if (contact.CommunicationReply)
+                        {
+                            <img src="~/Content/Images/ic_checked.png" width="20" />
+                        }
+                        else
+                        {
+                            <img src="~/Content/Images/ic_unchecked.png" width="20" />
+                        }
+                </td>
+                <td>@Html.ActionLink("Ver", "Details", "Communications", new { id = contact.CommunicationId }, new { @class = "btn btn-success btn-btn-small" })</td>
+            </tr>
+        }
+        </table>
+    }
+    else
+    {
+        <p>No jobs found</p>
+    }
 </div>
 <p>
     @Html.ActionLink("Edit", "Edit", new { id = Model.ContactId }) |

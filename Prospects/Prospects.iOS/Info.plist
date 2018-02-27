@@ -54,5 +54,7 @@
 	<string>NSPhotoLibraryUsageDescription</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>Picture Picker uses photo library</string>
+	<key>XSLaunchImageAssets</key>
+	<string>Resources/Media.xcassets/LaunchImages.launchimage</string>
 </dict>
 </plist>

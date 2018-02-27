@@ -10,6 +10,7 @@
     using System.Linq;
     using System.Threading.Tasks;
     using System.Windows.Input;
+    using Xamarin.Forms.Maps;
 
     public class CompanyViewModel : INotifyPropertyChanged
     {
@@ -60,6 +61,8 @@
                 }
             }
         }
+
+        public ObservableCollection<Pin> Pins { get; set; }
         #endregion
 
         #region Constructors
@@ -70,7 +73,6 @@
             apiService = new ApiService();
             dialogService = new DialogService();
 
-            
             LoadCompanies();
         }
         #endregion
@@ -163,6 +165,54 @@
             CompaniesList = new ObservableCollection<Company>(companies.OrderBy(c => c.CompanyName));
 
             IsRefreshing = false;
+        }
+
+        public async Task LoadPins()
+        {
+            var connection = await apiService.CheckConnection();
+            if (!connection.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", connection.Message);
+                return;
+            }
+
+            var mainViewModel = MainViewModel.GetInstance();
+
+            var response = await apiService.GetList<Company>(
+              "http://api.prospects.outstandservices.pt",
+              "/api",
+              "/Companies",
+              mainViewModel.Token.TokenType,
+              mainViewModel.Token.AccessToken);
+
+
+            if (!response.IsSuccess)
+            {
+                await dialogService.ShowMessage("Error", connection.Message);
+                return;
+            }
+
+            var locations = (List<Company>)response.Result;
+            Pins = new ObservableCollection<Pin>();
+
+            try
+            {
+                foreach (var location in locations.Where(p => p.Latitude != 0))
+                {
+                    Pins.Add(new Pin
+                    {
+                        Address = location.CompanyAddress,
+                        Label = location.CompanyName,
+                        Position = new Position(location.Latitude, location.Longitude),
+                        Type = PinType.Generic
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+
+                await dialogService.ShowMessage("Error", ex.Message);
+            }
         }
         #endregion
 
