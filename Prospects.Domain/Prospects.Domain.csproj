@@ -57,6 +57,9 @@
     <Compile Include="Communications\Helpers\CommunicationType.cs" />
     <Compile Include="Companies\Company.cs" />
     <Compile Include="Companies\Helpers\ActivitySector.cs" />
+    <Compile Include="Companies\Helpers\ComercialStatus.cs" />
+    <Compile Include="Companies\Helpers\CompanyClassification.cs" />
+    <Compile Include="Companies\Helpers\LegalForm.cs" />
     <Compile Include="Contact.cs" />
     <Compile Include="DataContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

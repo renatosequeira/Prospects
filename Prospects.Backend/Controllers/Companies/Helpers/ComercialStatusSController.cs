@@ -7,113 +7,114 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Prospects.Backend.Models;
+using Prospects.Domain;
 using Prospects.Domain.Companies.Helpers;
+using Prospects.Backend.Models;
 
 namespace Prospects.Backend.Controllers.Companies.Helpers
 {
     [Authorize]
-    public class ActivitySectorsController : Controller
+    public class ComercialStatusSController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
 
-        // GET: ActivitySectors
+        // GET: ComercialStatusS
         public async Task<ActionResult> Index()
         {
-            return View(await db.ActivitySectors.ToListAsync());
+            return View(await db.ComercialStatus.ToListAsync());
         }
 
-        // GET: ActivitySectors/Details/5
+        // GET: ComercialStatusS/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            ComercialStatus comercialStatus = await db.ComercialStatus.FindAsync(id);
+            if (comercialStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(comercialStatus);
         }
 
-        // GET: ActivitySectors/Create
+        // GET: ComercialStatusS/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ActivitySectors/Create
+        // POST: ComercialStatusS/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ActivitySectorId,Description,Notes")] ActivitySector activitySector)
+        public async Task<ActionResult> Create([Bind(Include = "ComercialStatusId,CommercialStatusDescription")] ComercialStatus comercialStatus)
         {
             if (ModelState.IsValid)
             {
-                db.ActivitySectors.Add(activitySector);
+                db.ComercialStatus.Add(comercialStatus);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(activitySector);
+            return View(comercialStatus);
         }
 
-        // GET: ActivitySectors/Edit/5
+        // GET: ComercialStatusS/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            ComercialStatus comercialStatus = await db.ComercialStatus.FindAsync(id);
+            if (comercialStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(comercialStatus);
         }
 
-        // POST: ActivitySectors/Edit/5
+        // POST: ComercialStatusS/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ActivitySectorId,Description,Notes")] ActivitySector activitySector)
+        public async Task<ActionResult> Edit([Bind(Include = "ComercialStatusId,CommercialStatusDescription")] ComercialStatus comercialStatus)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(activitySector).State = EntityState.Modified;
+                db.Entry(comercialStatus).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(activitySector);
+            return View(comercialStatus);
         }
 
-        // GET: ActivitySectors/Delete/5
+        // GET: ComercialStatusS/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            ComercialStatus comercialStatus = await db.ComercialStatus.FindAsync(id);
+            if (comercialStatus == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(comercialStatus);
         }
 
-        // POST: ActivitySectors/Delete/5
+        // POST: ComercialStatusS/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            db.ActivitySectors.Remove(activitySector);
+            ComercialStatus comercialStatus = await db.ComercialStatus.FindAsync(id);
+            db.ComercialStatus.Remove(comercialStatus);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

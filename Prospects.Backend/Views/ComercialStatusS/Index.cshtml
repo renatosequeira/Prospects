@@ -1,0 +1,40 @@
+﻿@model IEnumerable<Prospects.Domain.Companies.Helpers.ComercialStatus>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.CommercialStatusDescription)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.CommercialStatusNotes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommercialStatusDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CommercialStatusNotes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.ComercialStatusId }) |
+            @Html.ActionLink("Details", "Details", new { id = item.ComercialStatusId }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.ComercialStatusId })
+        </td>
+    </tr>
+}
+
+</table>

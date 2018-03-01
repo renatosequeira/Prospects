@@ -70,6 +70,10 @@
         public ActionResult Create()
         {
             ViewBag.ActivitySectorId = new SelectList(db.ActivitySectors.OrderBy(c => c.Description), "ActivitySectorId", "Description");
+            ViewBag.LegalFormId = new SelectList(db.LegalForms.OrderBy(c => c.LegalFormDescription), "LegalFormId", "LegalFormDescription");
+            ViewBag.ComercialStatusId = new SelectList(db.ComercialStatus.OrderBy(c => c.CommercialStatusDescription), "ComercialStatusId", "CommercialStatusDescription");
+            ViewBag.CompanyClassificationId = new SelectList(db.CompanyClassifications.OrderBy(c => c.CompanyClassificationDescription), "CompanyClassificationId", "CompanyClassificationDescription");
+
             return View();
         }
 
@@ -94,6 +98,7 @@
                 company.Image = pic;
 
                 company.AddedDate = DateTime.Today;
+                company.CompanyAddedBy = User.Identity.Name;
 
                 if (string.IsNullOrEmpty(company.Latitude))
                 {
@@ -138,7 +143,14 @@
                 Longitude = view.Longitude,
                 CAEPrincipal = view.CAEPrincipal,
                 ActivitySector = view.ActivitySector,
-                ActivitySectorId = view.ActivitySectorId
+                ActivitySectorId = view.ActivitySectorId,
+                LegalForm = view.LegalForm,
+                LegalFormId = view.LegalFormId,
+                StrategicClient = view.StrategicClient,
+                ComercialStatusId = view.ComercialStatusId,
+                ComercialStatus = view.ComercialStatus,
+                CompanyClassification = view.CompanyClassification,
+                CompanyClassificationId = view.CompanyClassificationId
             };
         }
 
@@ -159,8 +171,39 @@
 
             var view = ToView(company);
 
+            if(company.ComercialStatusId == null)
+            {
+                company.ComercialStatusId = 1;
+            }
+
+            if(company.ActivitySectorId == null)
+            {
+                company.ActivitySectorId = 10;
+            }
             
+            if(company.LegalFormId == null)
+            {
+                company.LegalFormId = 4;
+            }
+
+            if(company.ComercialStatusId == null)
+            {
+                company.ComercialStatusId = 6;
+            }
+
+            if(company.CompanyClassificationId == null)
+            {
+                company.CompanyClassificationId = 3;
+            }
+
             ViewBag.ActivitySectorId = new SelectList(db.ActivitySectors.OrderBy(c => c.Description), "ActivitySectorId", "Description", company.ActivitySectorId);
+            ViewBag.LegalFormId = new SelectList(db.LegalForms.OrderBy(c => c.LegalFormDescription), "LegalFormId", "LegalFormDescription", company.LegalFormId);
+            ViewBag.ComercialStatusId = new SelectList(db.ComercialStatus.OrderBy(c => c.CommercialStatusDescription), "ComercialStatusId", "CommercialStatusDescription", company.ComercialStatusId);
+            ViewBag.CompanyClassificationId = new SelectList(db.CompanyClassifications.OrderBy(
+                c => c.CompanyClassificationDescription), 
+                "CompanyClassificationId",
+                "CompanyClassificationDescription", 
+                company.CompanyClassificationId);
             return View(view);
         }
 
@@ -189,7 +232,14 @@
                 Longitude = company.Longitude,
                 CAEPrincipal = company.CAEPrincipal,
                 ActivitySector = company.ActivitySector,
-                ActivitySectorId = company.ActivitySectorId
+                ActivitySectorId = company.ActivitySectorId,
+                LegalForm = company.LegalForm,
+                LegalFormId = company.LegalFormId,
+                StrategicClient = company.StrategicClient,
+                ComercialStatus = company.ComercialStatus,
+                ComercialStatusId = company.ComercialStatusId,
+                CompanyClassificationId = company.CompanyClassificationId,
+                CompanyClassification = company.CompanyClassification
             };
         }
 
@@ -198,7 +248,39 @@
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Edit(CompanyView view)
         {
-            
+            ViewBag.ActivitySectorId = new SelectList(db.ActivitySectors.OrderBy(c => c.Description), "ActivitySectorId", "Description", view.ActivitySectorId);
+            ViewBag.LegalFormId = new SelectList(db.LegalForms.OrderBy(c => c.LegalFormDescription), "LegalFormId", "LegalFormDescription", view.LegalFormId);
+            ViewBag.ComercialStatusId = new SelectList(db.ComercialStatus.OrderBy(c => c.CommercialStatusDescription), "ComercialStatusId", "CommercialStatusDescription", view.ComercialStatusId);
+            ViewBag.CompanyClassificationId = new SelectList(db.CompanyClassifications.OrderBy(
+                c => c.CompanyClassificationDescription),
+                "CompanyClassificationId",
+                "CompanyClassificationDescription",
+                view.CompanyClassificationId);
+
+            if (view.ActivitySectorId == 10)
+            {
+                ViewBag.Message = "Seleccione um setor de atividade valido";
+                return View();
+            }
+
+            if (view.LegalFormId == 4)
+            {
+                ViewBag.Message = "Seleccione uma forma legal valido";
+                return View();
+            }
+
+            if (view.ComercialStatusId == 6)
+            {
+                ViewBag.Message = "Seleccione um estado comercial valido";
+                return View();
+            }
+
+            if (view.CompanyClassificationId == 3)
+            {
+                ViewBag.Message = "Seleccione uma classifcação valida";
+                return View();
+            }
+
             if (ModelState.IsValid)
             {
                 var pic = view.Image;

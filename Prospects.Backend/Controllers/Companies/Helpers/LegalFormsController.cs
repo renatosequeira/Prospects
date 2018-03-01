@@ -7,113 +7,114 @@ using System.Threading.Tasks;
 using System.Net;
 using System.Web;
 using System.Web.Mvc;
-using Prospects.Backend.Models;
+using Prospects.Domain;
 using Prospects.Domain.Companies.Helpers;
+using Prospects.Backend.Models;
 
 namespace Prospects.Backend.Controllers.Companies.Helpers
 {
     [Authorize]
-    public class ActivitySectorsController : Controller
+    public class LegalFormsController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
 
-        // GET: ActivitySectors
+        // GET: LegalForms
         public async Task<ActionResult> Index()
         {
-            return View(await db.ActivitySectors.ToListAsync());
+            return View(await db.LegalForms.ToListAsync());
         }
 
-        // GET: ActivitySectors/Details/5
+        // GET: LegalForms/Details/5
         public async Task<ActionResult> Details(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            LegalForm legalForm = await db.LegalForms.FindAsync(id);
+            if (legalForm == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(legalForm);
         }
 
-        // GET: ActivitySectors/Create
+        // GET: LegalForms/Create
         public ActionResult Create()
         {
             return View();
         }
 
-        // POST: ActivitySectors/Create
+        // POST: LegalForms/Create
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Create([Bind(Include = "ActivitySectorId,Description,Notes")] ActivitySector activitySector)
+        public async Task<ActionResult> Create([Bind(Include = "LegalFormId,LegalFormDescription,LegalFormNotes")] LegalForm legalForm)
         {
             if (ModelState.IsValid)
             {
-                db.ActivitySectors.Add(activitySector);
+                db.LegalForms.Add(legalForm);
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
 
-            return View(activitySector);
+            return View(legalForm);
         }
 
-        // GET: ActivitySectors/Edit/5
+        // GET: LegalForms/Edit/5
         public async Task<ActionResult> Edit(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            LegalForm legalForm = await db.LegalForms.FindAsync(id);
+            if (legalForm == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(legalForm);
         }
 
-        // POST: ActivitySectors/Edit/5
+        // POST: LegalForms/Edit/5
         // Para se proteger de mais ataques, ative as propriedades específicas a que você quer se conectar. Para 
         // obter mais detalhes, consulte https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<ActionResult> Edit([Bind(Include = "ActivitySectorId,Description,Notes")] ActivitySector activitySector)
+        public async Task<ActionResult> Edit([Bind(Include = "LegalFormId,LegalFormDescription,LegalFormNotes")] LegalForm legalForm)
         {
             if (ModelState.IsValid)
             {
-                db.Entry(activitySector).State = EntityState.Modified;
+                db.Entry(legalForm).State = EntityState.Modified;
                 await db.SaveChangesAsync();
                 return RedirectToAction("Index");
             }
-            return View(activitySector);
+            return View(legalForm);
         }
 
-        // GET: ActivitySectors/Delete/5
+        // GET: LegalForms/Delete/5
         public async Task<ActionResult> Delete(int? id)
         {
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            if (activitySector == null)
+            LegalForm legalForm = await db.LegalForms.FindAsync(id);
+            if (legalForm == null)
             {
                 return HttpNotFound();
             }
-            return View(activitySector);
+            return View(legalForm);
         }
 
-        // POST: ActivitySectors/Delete/5
+        // POST: LegalForms/Delete/5
         [HttpPost, ActionName("Delete")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> DeleteConfirmed(int id)
         {
-            ActivitySector activitySector = await db.ActivitySectors.FindAsync(id);
-            db.ActivitySectors.Remove(activitySector);
+            LegalForm legalForm = await db.LegalForms.FindAsync(id);
+            db.LegalForms.Remove(legalForm);
             await db.SaveChangesAsync();
             return RedirectToAction("Index");
         }

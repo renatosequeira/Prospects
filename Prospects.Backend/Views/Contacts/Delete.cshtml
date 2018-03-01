@@ -96,9 +96,16 @@
     @using (Html.BeginForm()) {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
-        </div>
+    <div class="form-actions no-color">
+        <a href="javascript:void(0);" onclick="history.go(-1);" class="btn btn-default"><span class="glyphicon glyphicon-chevron-left"></span> Voltar</a>
+        <input type="submit" value="Apagar" class="btn btn-danger" /> |
+        @*@Html.ActionLink("Back to List", "Index")*@
+    </div>
     }
 </div>
+
+<script type="text/javascript">
+    $(document).on('click', '#backLink', function () {
+        history.go(-1);
+    });
+</script>

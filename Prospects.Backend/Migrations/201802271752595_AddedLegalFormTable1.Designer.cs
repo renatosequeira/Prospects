@@ -7,13 +7,13 @@ namespace Prospects.Backend.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class ActivitySector : IMigrationMetadata
+    public sealed partial class AddedLegalFormTable1 : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(ActivitySector));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(AddedLegalFormTable1));
         
         string IMigrationMetadata.Id
         {
-            get { return "201802271309190_ActivitySector"; }
+            get { return "201802271752595_AddedLegalFormTable1"; }
         }
         
         string IMigrationMetadata.Source

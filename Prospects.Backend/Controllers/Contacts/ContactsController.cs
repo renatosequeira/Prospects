@@ -63,6 +63,7 @@
             if (ModelState.IsValid)
             {
                 contact.AddedDate = DateTime.Today;
+                contact.ContactAddedBy = User.Identity.Name;
 
                 db.Contacts.Add(contact);
                 await db.SaveChangesAsync();
@@ -100,12 +101,14 @@
         
         public async Task<ActionResult> Edit(Contact contact)
         {
+
             if (ModelState.IsValid)
             {
                 contact.AddedDate = _addedDate;
                 db.Entry(contact).State = EntityState.Modified;
                 await db.SaveChangesAsync();
-                return RedirectToAction("Index");
+                //return RedirectToAction("Index");
+                return RedirectToAction("Details", new RouteValueDictionary(new { controller = "Companies", action = "Details", Id = contact.CompanyId }));
             }
             ViewBag.CompanyId = new SelectList(db.Companies, "CompanyId", "CompanyName", contact.CompanyId);
             return View(contact);
@@ -134,7 +137,8 @@
             Contact contact = await db.Contacts.FindAsync(id);
             db.Contacts.Remove(contact);
             await db.SaveChangesAsync();
-            return RedirectToAction("Index");
+            //return RedirectToAction("Index");
+            return RedirectToAction("Details", new RouteValueDictionary(new { controller = "Companies", action = "Details", Id = contact.CompanyId }));
         }
 
         protected override void Dispose(bool disposing)

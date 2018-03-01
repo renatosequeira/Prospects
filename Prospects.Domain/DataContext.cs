@@ -25,5 +25,11 @@
         public DbSet<Communications.Helpers.CommunicationType> CommunicationTypes { get; set; }
 
         public DbSet<Companies.Helpers.ActivitySector> ActivitySectors { get; set; }
+
+        public DbSet<Companies.Helpers.LegalForm> LegalForms { get; set; }
+
+        public System.Data.Entity.DbSet<Prospects.Domain.Companies.Helpers.ComercialStatus> ComercialStatus { get; set; }
+
+        public System.Data.Entity.DbSet<Prospects.Domain.Companies.Helpers.CompanyClassification> CompanyClassifications { get; set; }
     }
 }

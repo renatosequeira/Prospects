@@ -66,11 +66,11 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.CompanyLegalForm)
+            Forma Legal
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.CompanyLegalForm)
+            @Html.DisplayFor(model => model.LegalForm.LegalFormDescription)
         </dd>
 
         <dt>
@@ -128,15 +128,47 @@
         <dd>
             @Html.DisplayFor(model => model.ActivitySector.Description)
         </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.StrategicClient)
+        </dt>
+
+        <dd>
+            @if (Model.StrategicClient)
+        {
+            <p style="color:forestgreen"><b>Empresa estratégica</b></p>
+    }
+    else
+    {
+        <p style="color:red"><b>Empresa não estratégica</b></p>
+}
+            @*@Html.DisplayFor(model => model.ActivitySector.Description)*@
+        </dd>
+
+        <dt>
+            Estado comercial
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ComercialStatus.CommercialStatusDescription)
+        </dd>
+
+        <dt>
+            Classificação Empresa
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.CompanyClassification.CompanyClassificationDescription)
+        </dd>
     </dl>
 
     <hr class="dl-horizontal" />
 
-    @if (Model.Contacts != null)
+    @if (Model.Contacts.Count != 0)
     {
     <h2>CONTACTOS @Model.CompanyName</h2>
 
-            <p>@Html.ActionLink("+", "Create", "Contacts", new { comp = Model.CompanyId }, new { @class = "btn btn-success btn-small" })</p>
+            <p>@Html.ActionLink(" ","Create", "Contacts", new { comp = Model.CompanyId }, new { @class = "btn btn-success btn-small glyphicon glyphicon-plus" })</p>
 
         <table class="table table-responsive table-hover">
             <thead class="thead-dark">
@@ -144,31 +176,41 @@
                     <td>Nome</td>
                     <td>Email</td>
                     <td>Contactado</td>
+                    <td></td>
                 </tr>
             </thead>
 
             @foreach (var contact in Model.Contacts.OrderBy(c => c.ContactName))
             {
-                <tr>
-                    <td><b>@contact.ContactName</b></td>
-                    <td>@contact.ContactEmail</td>
-                    <td>@if (contact.Communications.Count > 0)
+            <tr>
+                <td><b>@contact.ContactName</b></td>
+                <td>@contact.ContactEmail</td>
+                <td>
+                    @if (contact.Communications.Count > 0)
                     {
-                        <img src="~/Content/Images/ic_checked.png" width="20"/>
+                        var comms = contact.Communications.ToList();
+
+                        <img src="~/Content/Images/ic_checked.png" width="20" title="Último contacto
+                             "/>
                     }
                     else
                     {
-                        <img src="~/Content/Images/ic_unchecked.png" width="20"/>
+                        <img src="~/Content/Images/ic_unchecked.png" width="20" />
                     }
-                    </td>
-                    <td>@Html.ActionLink("Ver", "Details", "Contacts", new { id = contact.ContactId }, new { @class = "btn btn-success btn-btn-small" })</td>
-                </tr>
+                </td>
+                <td>
+                    @Html.ActionLink(" ", "Details", "Contacts", new { id = contact.ContactId }, new { @class = "btn btn-success btn-btn-small glyphicon glyphicon-eye-open", title="Ver " + @contact.ContactName} ) |
+                    @Html.ActionLink(" ", "Edit", "Contacts", new { id = contact.ContactId }, new { @class = "btn btn-warning btn-btn-small glyphicon glyphicon-pencil", title="Editar" }) | 
+                    @Html.ActionLink(" ", "Delete", "Contacts", new { id = contact.ContactId }, new { @class = "btn btn-danger btn-btn-small glyphicon glyphicon-remove-sign", title="Apagar" })
+                </td>
+            </tr>
             }
         </table>
     }
     else
     {
-        <p>No jobs found</p>
+        <p style="text-align:center;margin-bottom:10px"><img src="~/Content/Images/ic_frustrated_100.png" /></p>
+        <h3 style="text-align:center">AINDA NÃO ADICIONOU CONTACTOS A @Model.CompanyName.ToUpper()</h3>
     }
 </div>
 <p>

@@ -106,6 +106,9 @@
       <Private>True</Private>
       <HintPath>..\packages\Microsoft.AspNet.WebPages.3.2.3\lib\net45\System.Web.WebPages.Razor.dll</HintPath>
     </Reference>
+    <Reference Include="WebActivatorEx, Version=2.0.0.0, Culture=neutral, PublicKeyToken=7b26dc2a43f6a0d4, processorArchitecture=MSIL">
+      <HintPath>..\packages\WebActivatorEx.2.0\lib\net40\WebActivatorEx.dll</HintPath>
+    </Reference>
     <Reference Include="WebGrease">
       <Private>True</Private>
       <HintPath>..\packages\WebGrease.1.5.2\lib\WebGrease.dll</HintPath>
@@ -186,6 +189,7 @@
   <ItemGroup>
     <Compile Include="App_Start\BundleConfig.cs" />
     <Compile Include="App_Start\FilterConfig.cs" />
+    <Compile Include="App_Start\FontAwesomeBundleConfig.cs" />
     <Compile Include="App_Start\IdentityConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
@@ -195,6 +199,9 @@
     <Compile Include="Controllers\Communications\Helpers\CommunicationTypesController.cs" />
     <Compile Include="Controllers\Companies\CompaniesController.cs" />
     <Compile Include="Controllers\Companies\Helpers\ActivitySectorsController.cs" />
+    <Compile Include="Controllers\Companies\Helpers\ComercialStatusSController.cs" />
+    <Compile Include="Controllers\Companies\Helpers\CompanyClassificationsController.cs" />
+    <Compile Include="Controllers\Companies\Helpers\LegalFormsController.cs" />
     <Compile Include="Controllers\Contacts\ContactsController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
@@ -202,13 +209,13 @@
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
     <Compile Include="Helpers\FilesHelper.cs" />
-    <Compile Include="Migrations\201802271309190_ActivitySector.cs" />
-    <Compile Include="Migrations\201802271309190_ActivitySector.Designer.cs">
-      <DependentUpon>201802271309190_ActivitySector.cs</DependentUpon>
+    <Compile Include="Migrations\201802271750203_AddedLegalFormTable.cs" />
+    <Compile Include="Migrations\201802271750203_AddedLegalFormTable.Designer.cs">
+      <DependentUpon>201802271750203_AddedLegalFormTable.cs</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201802271324124_ActivitySectorId.cs" />
-    <Compile Include="Migrations\201802271324124_ActivitySectorId.Designer.cs">
-      <DependentUpon>201802271324124_ActivitySectorId.cs</DependentUpon>
+    <Compile Include="Migrations\201802271752595_AddedLegalFormTable1.cs" />
+    <Compile Include="Migrations\201802271752595_AddedLegalFormTable1.Designer.cs">
+      <DependentUpon>201802271752595_AddedLegalFormTable1.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -223,20 +230,33 @@
   <ItemGroup>
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\font-awesome.css" />
+    <Content Include="Content\font-awesome.min.css" />
     <Content Include="Content\Images\btn_delete.png" />
     <Content Include="Content\Images\btn_details.png" />
     <Content Include="Content\Images\btn_edit.png" />
+    <Content Include="Content\Images\cpcdi.jpg" />
+    <Content Include="Content\Images\databox.jpg" />
+    <Content Include="Content\Images\ic_birth_80_colored.png" />
     <Content Include="Content\Images\ic_checked.png" />
     <Content Include="Content\Images\ic_edit_white.png" />
+    <Content Include="Content\Images\ic_emailed.png" />
+    <Content Include="Content\Images\ic_fat_50_2BEA42.png" />
+    <Content Include="Content\Images\ic_frustrated_100.png" />
     <Content Include="Content\Images\ic_new_company.png" />
     <Content Include="Content\Images\ic_new_company_white.png" />
     <Content Include="Content\Images\ic_off.png" />
     <Content Include="Content\Images\ic_on.png" />
+    <Content Include="Content\Images\ic_star_empty.png" />
+    <Content Include="Content\Images\ic_star_filled.png" />
     <Content Include="Content\Images\ic_unchecked.png" />
     <Content Include="Content\Images\leads-prospects.gif" />
     <Content Include="Content\Images\Logo.png" />
     <Content Include="Content\Images\LogoProspects.png" />
+    <Content Include="Content\Images\techdata.jpg" />
+    <Content Include="Content\Images\web_hi_res_512.png" />
     <Content Include="favicon.ico" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -245,6 +265,11 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="fonts\FontAwesome.otf" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
     <None Include="Properties\PublishProfiles\prospects.outstandservices.pt - Web Deploy.pubxml" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -317,6 +342,22 @@
     <Content Include="Views\ActivitySectors\Details.cshtml" />
     <Content Include="Views\ActivitySectors\Edit.cshtml" />
     <Content Include="Views\ActivitySectors\Index.cshtml" />
+    <Content Include="Views\LegalForms\Create.cshtml" />
+    <Content Include="Views\LegalForms\Delete.cshtml" />
+    <Content Include="Views\LegalForms\Details.cshtml" />
+    <Content Include="Views\LegalForms\Edit.cshtml" />
+    <Content Include="Views\LegalForms\Index.cshtml" />
+    <Content Include="Views\Shared\_fWidthLayout.cshtml" />
+    <Content Include="Views\ComercialStatusS\Create.cshtml" />
+    <Content Include="Views\ComercialStatusS\Delete.cshtml" />
+    <Content Include="Views\ComercialStatusS\Details.cshtml" />
+    <Content Include="Views\ComercialStatusS\Edit.cshtml" />
+    <Content Include="Views\ComercialStatusS\Index.cshtml" />
+    <Content Include="Views\CompanyClassifications\Create.cshtml" />
+    <Content Include="Views\CompanyClassifications\Delete.cshtml" />
+    <Content Include="Views\CompanyClassifications\Details.cshtml" />
+    <Content Include="Views\CompanyClassifications\Edit.cshtml" />
+    <Content Include="Views\CompanyClassifications\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -342,11 +383,11 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201802271309190_ActivitySector.resx">
-      <DependentUpon>201802271309190_ActivitySector.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802271750203_AddedLegalFormTable.resx">
+      <DependentUpon>201802271750203_AddedLegalFormTable.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201802271324124_ActivitySectorId.resx">
-      <DependentUpon>201802271324124_ActivitySectorId.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201802271752595_AddedLegalFormTable1.resx">
+      <DependentUpon>201802271752595_AddedLegalFormTable1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

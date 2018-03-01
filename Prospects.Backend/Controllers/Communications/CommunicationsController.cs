@@ -12,6 +12,7 @@
     using System.Security.Claims;
     using System.Web.Routing;
 
+    [Authorize]
     public class CommunicationsController : ApplicationBaseController
     {
         private DataContextLocal db = new DataContextLocal();

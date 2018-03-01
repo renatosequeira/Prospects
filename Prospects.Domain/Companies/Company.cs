@@ -72,11 +72,32 @@
         [Display(Name = "CAE principal")]
         public string CAEPrincipal { get; set; }
 
+        [Display(Name = "Cliente Estratégico")]
+        public bool StrategicClient { get; set; }
 
+
+
+        #region Virtual Properties
         [Display(Name = "Sector Actividade")]
         public int? ActivitySectorId { get; set; }
-
         [JsonIgnore]
         public virtual ActivitySector ActivitySector { get; set; }
+
+        [Display(Name = "Forma legal")]
+        public int? LegalFormId { get; set; }
+        [JsonIgnore]
+        public virtual LegalForm LegalForm { get; set; }
+
+        [Display(Name = "Estado Comercial")]
+        public int? ComercialStatusId { get; set; }
+        [JsonIgnore]
+        public virtual ComercialStatus ComercialStatus { get; set; }
+
+        [Display(Name = "Classificação Empresa")]
+        public int? CompanyClassificationId { get; set; }
+        [JsonIgnore]
+        public virtual CompanyClassification CompanyClassification { get; set; }
+        #endregion
+
     }
 }

@@ -1,0 +1,39 @@
+﻿@model IEnumerable<Prospects.Domain.Companies.Helpers.LegalForm>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.LegalFormDescription)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LegalFormNotes)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.LegalFormDescription)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LegalFormNotes)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.LegalFormId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.LegalFormId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.LegalFormId })
+        </td>
+    </tr>
+}
+
+</table>

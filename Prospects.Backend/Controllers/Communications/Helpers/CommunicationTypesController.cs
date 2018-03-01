@@ -7,6 +7,7 @@
     using Prospects.Backend.Models;
     using Prospects.Domain.Communications.Helpers;
 
+    [Authorize]
     public class CommunicationTypesController : Controller
     {
         private DataContextLocal db = new DataContextLocal();
